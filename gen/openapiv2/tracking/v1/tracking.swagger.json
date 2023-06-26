@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "tracking/v1/tracking.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "TrackingService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/devices/streams": {
+      "get": {
+        "operationId": "TrackingService_DevicesStreams",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/v1DevicesStreamsResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of v1DevicesStreamsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "imeiList",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "TrackingService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AVLData": {
+      "type": "object",
+      "properties": {
+        "imei": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "uint64",
+          "title": "millisecond"
+        },
+        "priority": {
+          "$ref": "#/definitions/v1PacketPriority"
+        },
+        "gps": {
+          "$ref": "#/definitions/v1GPS"
+        },
+        "ioElements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1IOElement"
+          }
+        },
+        "eventId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1DevicesStreamsResponse": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1AVLData"
+          }
+        }
+      }
+    },
+    "v1GPS": {
+      "type": "object",
+      "properties": {
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "altitude": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "angle": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "satellites": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "speed": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1IOElement": {
+      "type": "object",
+      "properties": {
+        "elementId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "value": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1PacketPriority": {
+      "type": "string",
+      "enum": [
+        "PACKET_PRIORITY_LOW",
+        "PACKET_PRIORITY_HIGH",
+        "PACKET_PRIORITY_PANIC"
+      ],
+      "default": "PACKET_PRIORITY_LOW"
+    }
+  }
+}

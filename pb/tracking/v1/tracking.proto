@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tracking.v1;
+
+import "device/v1/device.proto";
+import "google/api/annotations.proto";
+
+service TrackingService {
+  rpc DevicesStreams(DevicesStreamsRequest) returns (stream DevicesStreamsResponse) {
+    option (google.api.http) = {get: "/api/v1/devices/streams"};
+  }
+}
+message DevicesStreamsRequest {
+  repeated string imei_list = 1;
+}
+
+message DevicesStreamsResponse {
+  repeated device.v1.AVLData points = 1;
+}
