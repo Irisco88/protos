@@ -13,4 +13,5 @@ lint: format
 
 # generate protos
 generate: lint
+    rm -rf ./gen
     buf generate
