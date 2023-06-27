@@ -32,21 +32,21 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 var (
-	filter_TrackingService_DevicesStreams_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_TrackingService_LiveDevices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_TrackingService_DevicesStreams_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (TrackingService_DevicesStreamsClient, runtime.ServerMetadata, error) {
-	var protoReq DevicesStreamsRequest
+func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (TrackingService_LiveDevicesClient, runtime.ServerMetadata, error) {
+	var protoReq LiveDevicesRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_TrackingService_DevicesStreams_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_TrackingService_LiveDevices_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.DevicesStreams(ctx, &protoReq)
+	stream, err := client.LiveDevices(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -65,7 +65,7 @@ func request_TrackingService_DevicesStreams_0(ctx context.Context, marshaler run
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingServiceHandlerFromEndpoint instead.
 func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingServiceServer) error {
 
-	mux.Handle("GET", pattern_TrackingService_DevicesStreams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -113,25 +113,25 @@ func RegisterTrackingServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // "TrackingServiceClient" to call the correct interceptors.
 func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TrackingServiceClient) error {
 
-	mux.Handle("GET", pattern_TrackingService_DevicesStreams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/DevicesStreams", runtime.WithHTTPPathPattern("/api/v1/devices/streams"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LiveDevices", runtime.WithHTTPPathPattern("/api/v1/livedevices"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingService_DevicesStreams_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TrackingService_LiveDevices_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingService_DevicesStreams_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_LiveDevices_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -139,9 +139,9 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_TrackingService_DevicesStreams_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "devices", "streams"}, ""))
+	pattern_TrackingService_LiveDevices_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "livedevices"}, ""))
 )
 
 var (
-	forward_TrackingService_DevicesStreams_0 = runtime.ForwardResponseStream
+	forward_TrackingService_LiveDevices_0 = runtime.ForwardResponseStream
 )

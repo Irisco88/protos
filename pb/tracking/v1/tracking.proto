@@ -6,14 +6,14 @@ import "device/v1/device.proto";
 import "google/api/annotations.proto";
 
 service TrackingService {
-  rpc DevicesStreams(DevicesStreamsRequest) returns (stream DevicesStreamsResponse) {
-    option (google.api.http) = {get: "/api/v1/devices/streams"};
+  rpc LiveDevices(LiveDevicesRequest) returns (stream LiveDevicesResponse) {
+    option (google.api.http) = {get: "/api/v1/livedevices"};
   }
 }
-message DevicesStreamsRequest {
+message LiveDevicesRequest {
   repeated string imei_list = 1;
 }
 
-message DevicesStreamsResponse {
-  repeated device.v1.AVLData points = 1;
+message LiveDevicesResponse {
+  device.v1.AVLData point = 1;
 }

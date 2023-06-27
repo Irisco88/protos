@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TrackingServiceClient interface {
-	DevicesStreams(ctx context.Context, in *DevicesStreamsRequest, opts ...grpc.CallOption) (TrackingService_DevicesStreamsClient, error)
+	LiveDevices(ctx context.Context, in *LiveDevicesRequest, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error)
 }
 
 type trackingServiceClient struct {
@@ -33,12 +33,12 @@ func NewTrackingServiceClient(cc grpc.ClientConnInterface) TrackingServiceClient
 	return &trackingServiceClient{cc}
 }
 
-func (c *trackingServiceClient) DevicesStreams(ctx context.Context, in *DevicesStreamsRequest, opts ...grpc.CallOption) (TrackingService_DevicesStreamsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &TrackingService_ServiceDesc.Streams[0], "/tracking.v1.TrackingService/DevicesStreams", opts...)
+func (c *trackingServiceClient) LiveDevices(ctx context.Context, in *LiveDevicesRequest, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &TrackingService_ServiceDesc.Streams[0], "/tracking.v1.TrackingService/LiveDevices", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &trackingServiceDevicesStreamsClient{stream}
+	x := &trackingServiceLiveDevicesClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -48,17 +48,17 @@ func (c *trackingServiceClient) DevicesStreams(ctx context.Context, in *DevicesS
 	return x, nil
 }
 
-type TrackingService_DevicesStreamsClient interface {
-	Recv() (*DevicesStreamsResponse, error)
+type TrackingService_LiveDevicesClient interface {
+	Recv() (*LiveDevicesResponse, error)
 	grpc.ClientStream
 }
 
-type trackingServiceDevicesStreamsClient struct {
+type trackingServiceLiveDevicesClient struct {
 	grpc.ClientStream
 }
 
-func (x *trackingServiceDevicesStreamsClient) Recv() (*DevicesStreamsResponse, error) {
-	m := new(DevicesStreamsResponse)
+func (x *trackingServiceLiveDevicesClient) Recv() (*LiveDevicesResponse, error) {
+	m := new(LiveDevicesResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (x *trackingServiceDevicesStreamsClient) Recv() (*DevicesStreamsResponse, e
 // All implementations must embed UnimplementedTrackingServiceServer
 // for forward compatibility
 type TrackingServiceServer interface {
-	DevicesStreams(*DevicesStreamsRequest, TrackingService_DevicesStreamsServer) error
+	LiveDevices(*LiveDevicesRequest, TrackingService_LiveDevicesServer) error
 	mustEmbedUnimplementedTrackingServiceServer()
 }
 
@@ -77,8 +77,8 @@ type TrackingServiceServer interface {
 type UnimplementedTrackingServiceServer struct {
 }
 
-func (UnimplementedTrackingServiceServer) DevicesStreams(*DevicesStreamsRequest, TrackingService_DevicesStreamsServer) error {
-	return status.Errorf(codes.Unimplemented, "method DevicesStreams not implemented")
+func (UnimplementedTrackingServiceServer) LiveDevices(*LiveDevicesRequest, TrackingService_LiveDevicesServer) error {
+	return status.Errorf(codes.Unimplemented, "method LiveDevices not implemented")
 }
 func (UnimplementedTrackingServiceServer) mustEmbedUnimplementedTrackingServiceServer() {}
 
@@ -93,24 +93,24 @@ func RegisterTrackingServiceServer(s grpc.ServiceRegistrar, srv TrackingServiceS
 	s.RegisterService(&TrackingService_ServiceDesc, srv)
 }
 
-func _TrackingService_DevicesStreams_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(DevicesStreamsRequest)
+func _TrackingService_LiveDevices_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(LiveDevicesRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(TrackingServiceServer).DevicesStreams(m, &trackingServiceDevicesStreamsServer{stream})
+	return srv.(TrackingServiceServer).LiveDevices(m, &trackingServiceLiveDevicesServer{stream})
 }
 
-type TrackingService_DevicesStreamsServer interface {
-	Send(*DevicesStreamsResponse) error
+type TrackingService_LiveDevicesServer interface {
+	Send(*LiveDevicesResponse) error
 	grpc.ServerStream
 }
 
-type trackingServiceDevicesStreamsServer struct {
+type trackingServiceLiveDevicesServer struct {
 	grpc.ServerStream
 }
 
-func (x *trackingServiceDevicesStreamsServer) Send(m *DevicesStreamsResponse) error {
+func (x *trackingServiceLiveDevicesServer) Send(m *LiveDevicesResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -123,8 +123,8 @@ var TrackingService_ServiceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "DevicesStreams",
-			Handler:       _TrackingService_DevicesStreams_Handler,
+			StreamName:    "LiveDevices",
+			Handler:       _TrackingService_LiveDevices_Handler,
 			ServerStreams: true,
 		},
 	},
