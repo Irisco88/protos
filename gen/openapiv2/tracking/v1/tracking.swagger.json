@@ -17,7 +17,7 @@
   ],
   "paths": {
     "/api/v1/livedevices": {
-      "get": {
+      "post": {
         "operationId": "TrackingService_LiveDevices",
         "responses": {
           "200": {
@@ -44,14 +44,12 @@
         },
         "parameters": [
           {
-            "name": "imeiList",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LiveDevicesRequest"
+            }
           }
         ],
         "tags": [
@@ -156,6 +154,17 @@
         "value": {
           "type": "string",
           "format": "int64"
+        }
+      }
+    },
+    "v1LiveDevicesRequest": {
+      "type": "object",
+      "properties": {
+        "imeiList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

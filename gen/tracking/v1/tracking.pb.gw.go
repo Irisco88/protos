@@ -31,18 +31,15 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-var (
-	filter_TrackingService_LiveDevices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (TrackingService_LiveDevicesClient, runtime.ServerMetadata, error) {
 	var protoReq LiveDevicesRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_TrackingService_LiveDevices_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -65,7 +62,7 @@ func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtim
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingServiceHandlerFromEndpoint instead.
 func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingServiceServer) error {
 
-	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -113,7 +110,7 @@ func RegisterTrackingServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // "TrackingServiceClient" to call the correct interceptors.
 func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TrackingServiceClient) error {
 
-	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)

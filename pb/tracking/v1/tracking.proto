@@ -7,7 +7,10 @@ import "google/api/annotations.proto";
 
 service TrackingService {
   rpc LiveDevices(LiveDevicesRequest) returns (stream LiveDevicesResponse) {
-    option (google.api.http) = {get: "/api/v1/livedevices"};
+    option (google.api.http) = {
+      post: "/api/v1/livedevices",
+      body: "*"
+    };
   }
 }
 message LiveDevicesRequest {
