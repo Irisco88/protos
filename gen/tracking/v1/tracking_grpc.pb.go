@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TrackingServiceClient interface {
-	LiveDevices(ctx context.Context, in *LiveDevicesRequest, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error)
+	LiveDevices(ctx context.Context, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error)
 }
 
 type trackingServiceClient struct {
@@ -33,28 +33,27 @@ func NewTrackingServiceClient(cc grpc.ClientConnInterface) TrackingServiceClient
 	return &trackingServiceClient{cc}
 }
 
-func (c *trackingServiceClient) LiveDevices(ctx context.Context, in *LiveDevicesRequest, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error) {
+func (c *trackingServiceClient) LiveDevices(ctx context.Context, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error) {
 	stream, err := c.cc.NewStream(ctx, &TrackingService_ServiceDesc.Streams[0], "/tracking.v1.TrackingService/LiveDevices", opts...)
 	if err != nil {
 		return nil, err
 	}
 	x := &trackingServiceLiveDevicesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
 	return x, nil
 }
 
 type TrackingService_LiveDevicesClient interface {
+	Send(*LiveDevicesRequest) error
 	Recv() (*LiveDevicesResponse, error)
 	grpc.ClientStream
 }
 
 type trackingServiceLiveDevicesClient struct {
 	grpc.ClientStream
+}
+
+func (x *trackingServiceLiveDevicesClient) Send(m *LiveDevicesRequest) error {
+	return x.ClientStream.SendMsg(m)
 }
 
 func (x *trackingServiceLiveDevicesClient) Recv() (*LiveDevicesResponse, error) {
@@ -69,7 +68,7 @@ func (x *trackingServiceLiveDevicesClient) Recv() (*LiveDevicesResponse, error) 
 // All implementations must embed UnimplementedTrackingServiceServer
 // for forward compatibility
 type TrackingServiceServer interface {
-	LiveDevices(*LiveDevicesRequest, TrackingService_LiveDevicesServer) error
+	LiveDevices(TrackingService_LiveDevicesServer) error
 	mustEmbedUnimplementedTrackingServiceServer()
 }
 
@@ -77,7 +76,7 @@ type TrackingServiceServer interface {
 type UnimplementedTrackingServiceServer struct {
 }
 
-func (UnimplementedTrackingServiceServer) LiveDevices(*LiveDevicesRequest, TrackingService_LiveDevicesServer) error {
+func (UnimplementedTrackingServiceServer) LiveDevices(TrackingService_LiveDevicesServer) error {
 	return status.Errorf(codes.Unimplemented, "method LiveDevices not implemented")
 }
 func (UnimplementedTrackingServiceServer) mustEmbedUnimplementedTrackingServiceServer() {}
@@ -94,15 +93,12 @@ func RegisterTrackingServiceServer(s grpc.ServiceRegistrar, srv TrackingServiceS
 }
 
 func _TrackingService_LiveDevices_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(LiveDevicesRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(TrackingServiceServer).LiveDevices(m, &trackingServiceLiveDevicesServer{stream})
+	return srv.(TrackingServiceServer).LiveDevices(&trackingServiceLiveDevicesServer{stream})
 }
 
 type TrackingService_LiveDevicesServer interface {
 	Send(*LiveDevicesResponse) error
+	Recv() (*LiveDevicesRequest, error)
 	grpc.ServerStream
 }
 
@@ -112,6 +108,14 @@ type trackingServiceLiveDevicesServer struct {
 
 func (x *trackingServiceLiveDevicesServer) Send(m *LiveDevicesResponse) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func (x *trackingServiceLiveDevicesServer) Recv() (*LiveDevicesRequest, error) {
+	m := new(LiveDevicesRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // TrackingService_ServiceDesc is the grpc.ServiceDesc for TrackingService service.
@@ -126,6 +130,7 @@ var TrackingService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "LiveDevices",
 			Handler:       _TrackingService_LiveDevices_Handler,
 			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "tracking/v1/tracking.proto",

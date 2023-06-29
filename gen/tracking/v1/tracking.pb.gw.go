@@ -32,28 +32,46 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (TrackingService_LiveDevicesClient, runtime.ServerMetadata, error) {
-	var protoReq LiveDevicesRequest
 	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	stream, err := client.LiveDevices(ctx, &protoReq)
+	stream, err := client.LiveDevices(ctx)
 	if err != nil {
+		grpclog.Infof("Failed to start streaming: %v", err)
 		return nil, metadata, err
 	}
+	dec := marshaler.NewDecoder(req.Body)
+	handleSend := func() error {
+		var protoReq LiveDevicesRequest
+		err := dec.Decode(&protoReq)
+		if err == io.EOF {
+			return err
+		}
+		if err != nil {
+			grpclog.Infof("Failed to decode request: %v", err)
+			return err
+		}
+		if err := stream.Send(&protoReq); err != nil {
+			grpclog.Infof("Failed to send request: %v", err)
+			return err
+		}
+		return nil
+	}
+	go func() {
+		for {
+			if err := handleSend(); err != nil {
+				break
+			}
+		}
+		if err := stream.CloseSend(); err != nil {
+			grpclog.Infof("Failed to terminate client stream: %v", err)
+		}
+	}()
 	header, err := stream.Header()
 	if err != nil {
+		grpclog.Infof("Failed to get header from client: %v", err)
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 // RegisterTrackingServiceHandlerServer registers the http handlers for service TrackingService to "mux".

@@ -6,7 +6,7 @@ import "device/v1/device.proto";
 import "google/api/annotations.proto";
 
 service TrackingService {
-  rpc LiveDevices(LiveDevicesRequest) returns (stream LiveDevicesResponse) {
+  rpc LiveDevices(stream LiveDevicesRequest) returns (stream LiveDevicesResponse) {
     option (google.api.http) = {
       post: "/api/v1/livedevices",
       body: "*"
