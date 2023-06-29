@@ -80,7 +80,7 @@ func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtim
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingServiceHandlerFromEndpoint instead.
 func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingServiceServer) error {
 
-	mux.Handle("POST", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -128,7 +128,7 @@ func RegisterTrackingServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // "TrackingServiceClient" to call the correct interceptors.
 func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TrackingServiceClient) error {
 
-	mux.Handle("POST", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
