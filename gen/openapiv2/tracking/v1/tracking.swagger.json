@@ -16,7 +16,39 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/livedevices": {
+    "/api/v1/tracking/lastpoints": {
+      "post": {
+        "operationId": "TrackingService_LastPoints",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LastPointsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LastPointsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TrackingService"
+        ]
+      }
+    },
+    "/api/v1/tracking/livedevices": {
       "get": {
         "operationId": "TrackingService_LiveDevices",
         "responses": {
@@ -156,6 +188,28 @@
         "value": {
           "type": "string",
           "format": "int64"
+        }
+      }
+    },
+    "v1LastPointsRequest": {
+      "type": "object",
+      "properties": {
+        "imeiList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1LastPointsResponse": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1AVLData"
+          }
         }
       }
     },

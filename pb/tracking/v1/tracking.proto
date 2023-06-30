@@ -7,8 +7,20 @@ import "google/api/annotations.proto";
 
 service TrackingService {
   rpc LiveDevices(stream LiveDevicesRequest) returns (stream LiveDevicesResponse) {
-    option (google.api.http) = {get: "/api/v1/livedevices"};
+    option (google.api.http) = {get: "/api/v1/tracking/livedevices"};
   }
+  rpc LastPoints(LastPointsRequest) returns (LastPointsResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/tracking/lastpoints",
+      body: "*"
+    };
+  }
+}
+message LastPointsRequest {
+  repeated string imei_list = 1;
+}
+message LastPointsResponse {
+  repeated device.v1.AVLData points = 1;
 }
 message LiveDevicesRequest {
   repeated string imei_list = 1;

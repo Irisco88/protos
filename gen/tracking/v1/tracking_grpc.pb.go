@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TrackingServiceClient interface {
 	LiveDevices(ctx context.Context, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error)
+	LastPoints(ctx context.Context, in *LastPointsRequest, opts ...grpc.CallOption) (*LastPointsResponse, error)
 }
 
 type trackingServiceClient struct {
@@ -64,11 +65,21 @@ func (x *trackingServiceLiveDevicesClient) Recv() (*LiveDevicesResponse, error) 
 	return m, nil
 }
 
+func (c *trackingServiceClient) LastPoints(ctx context.Context, in *LastPointsRequest, opts ...grpc.CallOption) (*LastPointsResponse, error) {
+	out := new(LastPointsResponse)
+	err := c.cc.Invoke(ctx, "/tracking.v1.TrackingService/LastPoints", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TrackingServiceServer is the server API for TrackingService service.
 // All implementations must embed UnimplementedTrackingServiceServer
 // for forward compatibility
 type TrackingServiceServer interface {
 	LiveDevices(TrackingService_LiveDevicesServer) error
+	LastPoints(context.Context, *LastPointsRequest) (*LastPointsResponse, error)
 	mustEmbedUnimplementedTrackingServiceServer()
 }
 
@@ -78,6 +89,9 @@ type UnimplementedTrackingServiceServer struct {
 
 func (UnimplementedTrackingServiceServer) LiveDevices(TrackingService_LiveDevicesServer) error {
 	return status.Errorf(codes.Unimplemented, "method LiveDevices not implemented")
+}
+func (UnimplementedTrackingServiceServer) LastPoints(context.Context, *LastPointsRequest) (*LastPointsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LastPoints not implemented")
 }
 func (UnimplementedTrackingServiceServer) mustEmbedUnimplementedTrackingServiceServer() {}
 
@@ -118,13 +132,36 @@ func (x *trackingServiceLiveDevicesServer) Recv() (*LiveDevicesRequest, error) {
 	return m, nil
 }
 
+func _TrackingService_LastPoints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LastPointsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrackingServiceServer).LastPoints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/tracking.v1.TrackingService/LastPoints",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrackingServiceServer).LastPoints(ctx, req.(*LastPointsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TrackingService_ServiceDesc is the grpc.ServiceDesc for TrackingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TrackingService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "tracking.v1.TrackingService",
 	HandlerType: (*TrackingServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "LastPoints",
+			Handler:    _TrackingService_LastPoints_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "LiveDevices",
