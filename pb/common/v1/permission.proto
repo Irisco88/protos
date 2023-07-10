@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package common.v1;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+  // See `AuditOptions`.
+  RoleAccess permission = 72295730;
+}
+
+message RoleAccess {
+  repeated UserRole roles = 1;
+}
+
+enum UserRole{
+  USER_ROLE_NORMAL = 0; // can manage all owned entities in that company
+  USER_ROLE_READER = 1; // can read all entities in company
+  USER_ROLE_ADMIN = 2;  // can manage all company entities
+}

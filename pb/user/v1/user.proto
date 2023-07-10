@@ -3,6 +3,7 @@ syntax = "proto3";
 package user.v1;
 
 import "google/api/annotations.proto";
+import "common/v1/permission.proto";
 
 service UserService {
   rpc SignIn(SignInRequest) returns (SignInResponse) {
@@ -16,16 +17,25 @@ service UserService {
       post: "/api/v1/user/createuser"
       body: "*"
     };
+    option (common.v1.permission) = {
+      roles:[USER_ROLE_ADMIN]
+    };
   }
   rpc UpdateUser(UpdateUserRequest)returns(UpdateUserResponse){
     option (google.api.http) = {
       post: "/api/v1/user/updateuser"
       body: "*"
     };
+    option (common.v1.permission) = {
+      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL]
+    };
   }
   rpc UploadAvatar(stream UploadAvatarRequest) returns (UploadAvatarResponse){
     option (google.api.http) = {
       get: "/api/v1/user/uploadavatar"
+    };
+    option (common.v1.permission) = {
+      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL]
     };
   }
 }
@@ -37,22 +47,14 @@ message User{
   string user_name = 4;
   string email = 5;
   string password = 6;
-  UserRole role = 7;
+  common.v1.UserRole role = 7;
   string profile_photo = 8;
-}
-
-enum UserRole{
-  USER_ROLE_NORMAL = 0; // can manage all owned entities in that company
-  USER_ROLE_READER = 1; // can read all entities in company
-  USER_ROLE_ADMIN = 2;  // can manage all company entities
 }
 
 message UpdateUserRequest{
   User user = 1;
 }
-message UpdateUserResponse{
-
-}
+message UpdateUserResponse{}
 
 message SignInRequest {
   string user_name = 1;
