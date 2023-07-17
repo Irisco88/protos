@@ -15,3 +15,11 @@ lint: format
 generate: lint
     rm -rf ./gen
     buf generate
+
+gopath := `go env | grep GOPATH | cut -d "=" -f2 | tr -d '"'`
+# builds permission plugin
+plugin:
+    @echo "build plugin..."
+    @go build -ldflags "-s -w" -o "./bin/protoc-gen-permission" ./plugins/permission && echo "permission generated successfully."
+    @echo "copy compiled permission plugin to {{gopath}}/bin"
+    @cp "./bin/protoc-gen-permission" "{{gopath}}/bin"

@@ -2,15 +2,19 @@ syntax = "proto3";
 
 package tracking.v1;
 
+import "common/v1/permission.proto";
 import "device/v1/device.proto";
 import "google/api/annotations.proto";
-import "common/v1/permission.proto";
 
 service TrackingService {
   rpc LiveDevices(stream LiveDevicesRequest) returns (stream LiveDevicesResponse) {
     option (google.api.http) = {get: "/api/v1/tracking/livedevices"};
     option (common.v1.permission) = {
-      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL, USER_ROLE_READER]
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL,
+        USER_ROLE_READER
+      ]
     };
   }
   rpc LastPoints(LastPointsRequest) returns (LastPointsResponse) {
@@ -19,7 +23,11 @@ service TrackingService {
       body: "*"
     };
     option (common.v1.permission) = {
-      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL, USER_ROLE_READER]
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL,
+        USER_ROLE_READER
+      ]
     };
   }
 }

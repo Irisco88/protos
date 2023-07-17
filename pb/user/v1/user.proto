@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package user.v1;
 
-import "google/api/annotations.proto";
 import "common/v1/permission.proto";
+import "google/api/annotations.proto";
 
 service UserService {
   rpc SignIn(SignInRequest) returns (SignInResponse) {
@@ -12,35 +12,39 @@ service UserService {
       body: "*"
     };
   }
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse){
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
       post: "/api/v1/user/createuser"
       body: "*"
     };
     option (common.v1.permission) = {
-      roles:[USER_ROLE_ADMIN]
+      roles: [USER_ROLE_ADMIN]
     };
   }
-  rpc UpdateUser(UpdateUserRequest)returns(UpdateUserResponse){
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
     option (google.api.http) = {
       post: "/api/v1/user/updateuser"
       body: "*"
     };
     option (common.v1.permission) = {
-      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL]
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
     };
   }
-  rpc UploadAvatar(stream UploadAvatarRequest) returns (UploadAvatarResponse){
-    option (google.api.http) = {
-      get: "/api/v1/user/uploadavatar"
-    };
+  rpc UploadAvatar(stream UploadAvatarRequest) returns (UploadAvatarResponse) {
+    option (google.api.http) = {get: "/api/v1/user/uploadavatar"};
     option (common.v1.permission) = {
-      roles:[USER_ROLE_ADMIN, USER_ROLE_NORMAL]
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
     };
   }
 }
 
-message User{
+message User {
   uint32 id = 1;
   string first_name = 2;
   string last_name = 3;
@@ -51,10 +55,10 @@ message User{
   string profile_photo = 8;
 }
 
-message UpdateUserRequest{
+message UpdateUserRequest {
   User user = 1;
 }
-message UpdateUserResponse{}
+message UpdateUserResponse {}
 
 message SignInRequest {
   string user_name = 1;
@@ -65,15 +69,15 @@ message SignInResponse {
   string token = 1;
 }
 
-message CreateUserRequest{
+message CreateUserRequest {
   User user = 1;
 }
 
-message CreateUserResponse{
+message CreateUserResponse {
   uint32 user_id = 1;
 }
 
-message UploadAvatarRequest{
+message UploadAvatarRequest {
   oneof data {
     bytes chunk_data = 1;
     AvatarInfo photo_info = 2;
@@ -84,7 +88,7 @@ message AvatarInfo {
   string photo_type = 2;
 }
 
-message UploadAvatarResponse{
+message UploadAvatarResponse {
   uint32 size = 1;
   string photo_id = 2;
 }
