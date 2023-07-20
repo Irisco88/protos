@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
@@ -17,6 +18,10 @@ func main() {
 		ParamFunc: flags.Set,
 	}
 	pbOpts.Run(func(gen *protogen.Plugin) error {
+		if showVersion {
+			fmt.Printf("protoc-gen-permission: v%s", Version)
+			return nil
+		}
 		for _, f := range gen.Files {
 			if !f.Generate {
 				continue

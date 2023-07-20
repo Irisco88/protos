@@ -13,7 +13,7 @@ type MethodStreamInfo struct {
 }
 
 var UserServicePermissions = &ServicePermission{
-	ServiceName: "/user.v1.UserService/signup",
+	ServiceName: "user.v1.UserService",
 	MethodStreams: map[string]*MethodStreamInfo{
 		"/user.v1.UserService/signup": {
 			RPCName: "signup",
