@@ -22,6 +22,12 @@ var UserServicePermissions = &ServicePermission{
 				commonpb.UserRole_USER_ROLE_READER,
 			},
 		},
+		"/user.v1.UserService/signin": {
+			RPCName: "signin",
+			Roles: []commonpb.UserRole{
+				commonpb.UserRole_USER_ROLE_NORMAL,
+			},
+		},
 	},
 }
 

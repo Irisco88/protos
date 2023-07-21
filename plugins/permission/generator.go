@@ -8,7 +8,6 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/descriptorpb"
-	"log"
 )
 
 func GenerateFile(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
@@ -37,7 +36,7 @@ func GenerateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 
 	for _, service := range file.Services {
 		srvName := service.GoName + "Permission"
-		methodsDicts := make([]jen.Code, 0)
+		methodsDict := jen.Dict{}
 		for _, method := range service.Methods {
 			perms, ok := GetMethodPermissionOpts(method.Desc)
 			if !ok || perms == nil {
@@ -46,24 +45,22 @@ func GenerateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 			fullMethod := BuildFullMethod(*file.Proto.Package, service.GoName, method.GoName)
 			roleValues := make([]jen.Code, 0)
 			for _, role := range perms.Roles {
-				roleValues = append(roleValues, jen.Qual("commonpb", "UserRole_"+role.String()))
+				roleValues = append(roleValues, jen.Qual("github.com/openfms/protos/gen/common/v1", "UserRole_"+role.String()))
 			}
-			methodDetails := jen.Dict{
-				jen.Lit(fullMethod): jen.Dict{
-					jen.Id("RPCName"): jen.Lit(method.GoName),
-					jen.Id("Roles"):   jen.Index().Qual("commonpb", "UserRole").Values(roleValues...),
-				},
-			}
-			methodsDicts = append(methodsDicts, methodDetails)
+
+			methodsDict[jen.Lit(fullMethod)] = jen.Op("&").Id("MethodStreamInfo").Values(jen.Dict{
+				jen.Id("RPCName"): jen.Lit(method.GoName),
+				jen.Id("Roles"):   jen.Index().Qual("github.com/openfms/protos/gen/common/v1", "UserRole").Values(roleValues...),
+			})
 		}
-		log.Printf("%#v", methodsDicts)
+
 		// Generate UserServicePermissions variable with for loop and append roles
-		f.Var().Id(srvName).Op("=").Op("&").Id("ServicePermission").Values(jen.Dict{
-			jen.Id("ServiceName"):   jen.Lit(string(service.Desc.FullName())),
-			jen.Id("MethodStreams"): jen.Map(jen.String()).Op("*").Id("MethodStreamInfo").Values(methodsDicts...),
-		})
+		f.Var().Id(srvName).Op("=").Op("&").Id("ServicePermission").Values(
+			jen.Dict{
+				jen.Id("ServiceName"):   jen.Lit(string(service.Desc.FullName())),
+				jen.Id("MethodStreams"): jen.Map(jen.String()).Op("*").Id("MethodStreamInfo").Values(methodsDict),
+			})
 	}
-	log.Printf("%#v", f)
 	// Use the P method to write the generated code to the protogen.GeneratedFile
 	g.P(fmt.Sprintf("%#v", f))
 
