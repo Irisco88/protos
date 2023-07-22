@@ -217,11 +217,9 @@
     "v1SignInRequest": {
       "type": "object",
       "properties": {
-        "userName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
+        "userNameEmail": {
+          "type": "string",
+          "title": "email or username"
         },
         "password": {
           "type": "string"

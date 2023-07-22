@@ -61,9 +61,8 @@ message UpdateUserRequest {
 message UpdateUserResponse {}
 
 message SignInRequest {
-  string user_name = 1;
-  string email = 2;
-  string password = 3;
+  string user_name_email = 1; //email or username
+  string password = 2;
 }
 
 message SignInResponse {
