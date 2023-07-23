@@ -23,7 +23,7 @@ service UserService {
   }
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
     option (google.api.http) = {
-      post: "/api/v1/user/updateuser"
+      put: "/api/v1/user/updateuser"
       body: "*"
     };
     option (common.v1.permission) = {
@@ -31,6 +31,21 @@ service UserService {
         USER_ROLE_ADMIN,
         USER_ROLE_NORMAL
       ]
+    };
+  }
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {delete: "/api/v1/user/deleteuser/{user_id}"};
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+  rpc Signup(SignupRequest) returns (SignupResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/signup"
+      body: "*"
     };
   }
   rpc UploadAvatar(stream UploadAvatarRequest) returns (UploadAvatarResponse) {
@@ -91,4 +106,23 @@ message AvatarInfo {
 message UploadAvatarResponse {
   uint32 size = 1;
   string photo_id = 2;
+}
+
+message DeleteUserRequest {
+  uint32 user_id = 1;
+}
+
+message DeleteUserResponse {}
+
+message SignupRequest {
+  string first_name = 1;
+  string last_name = 2;
+  string user_name = 3;
+  string email = 4;
+  string password = 5;
+  string avatar = 6;
+}
+
+message SignupResponse {
+  string token = 1;
 }

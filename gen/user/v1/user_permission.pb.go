@@ -18,6 +18,10 @@ var UserServicePermission = &ServicePermission{
 			RPCName: "CreateUser",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN},
 		},
+		"/user.v1.UserService/DeleteUser": &MethodStreamInfo{
+			RPCName: "DeleteUser",
+			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
+		},
 		"/user.v1.UserService/UpdateUser": &MethodStreamInfo{
 			RPCName: "UpdateUser",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
