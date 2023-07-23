@@ -52,7 +52,7 @@ message User {
   string email = 5;
   string password = 6;
   common.v1.UserRole role = 7;
-  string profile_photo = 8;
+  string avatar = 8;
 }
 
 message UpdateUserRequest {

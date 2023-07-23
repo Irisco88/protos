@@ -282,7 +282,7 @@
         "role": {
           "$ref": "#/definitions/v1UserRole"
         },
-        "profilePhoto": {
+        "avatar": {
           "type": "string"
         }
       }
