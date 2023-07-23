@@ -113,12 +113,12 @@
     },
     "/api/v1/user/signup": {
       "post": {
-        "operationId": "UserService_Signup",
+        "operationId": "UserService_SignUp",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1SignupResponse"
+              "$ref": "#/definitions/v1SignUpResponse"
             }
           },
           "default": {
@@ -134,7 +134,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1SignupRequest"
+              "$ref": "#/definitions/v1SignUpRequest"
             }
           }
         ],
@@ -300,7 +300,7 @@
         }
       }
     },
-    "v1SignupRequest": {
+    "v1SignUpRequest": {
       "type": "object",
       "properties": {
         "firstName": {
@@ -323,7 +323,7 @@
         }
       }
     },
-    "v1SignupResponse": {
+    "v1SignUpResponse": {
       "type": "object",
       "properties": {
         "token": {
