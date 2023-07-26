@@ -48,15 +48,6 @@ service UserService {
       body: "*"
     };
   }
-  rpc UploadAvatar(stream UploadAvatarRequest) returns (UploadAvatarResponse) {
-    option (google.api.http) = {get: "/api/v1/user/uploadavatar"};
-    option (common.v1.permission) = {
-      roles: [
-        USER_ROLE_ADMIN,
-        USER_ROLE_NORMAL
-      ]
-    };
-  }
 }
 
 message User {
@@ -90,22 +81,6 @@ message CreateUserRequest {
 
 message CreateUserResponse {
   uint32 user_id = 1;
-}
-
-message UploadAvatarRequest {
-  oneof data {
-    bytes chunk_data = 1;
-    AvatarInfo photo_info = 2;
-  }
-}
-message AvatarInfo {
-  uint32 user_id = 1;
-  string photo_type = 2;
-}
-
-message UploadAvatarResponse {
-  uint32 size = 1;
-  string photo_id = 2;
 }
 
 message DeleteUserRequest {

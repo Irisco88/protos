@@ -27,7 +27,6 @@ type UserServiceClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
-	UploadAvatar(ctx context.Context, opts ...grpc.CallOption) (UserService_UploadAvatarClient, error)
 }
 
 type userServiceClient struct {
@@ -83,40 +82,6 @@ func (c *userServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts 
 	return out, nil
 }
 
-func (c *userServiceClient) UploadAvatar(ctx context.Context, opts ...grpc.CallOption) (UserService_UploadAvatarClient, error) {
-	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], "/user.v1.UserService/UploadAvatar", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &userServiceUploadAvatarClient{stream}
-	return x, nil
-}
-
-type UserService_UploadAvatarClient interface {
-	Send(*UploadAvatarRequest) error
-	CloseAndRecv() (*UploadAvatarResponse, error)
-	grpc.ClientStream
-}
-
-type userServiceUploadAvatarClient struct {
-	grpc.ClientStream
-}
-
-func (x *userServiceUploadAvatarClient) Send(m *UploadAvatarRequest) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *userServiceUploadAvatarClient) CloseAndRecv() (*UploadAvatarResponse, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(UploadAvatarResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -126,7 +91,6 @@ type UserServiceServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
-	UploadAvatar(UserService_UploadAvatarServer) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -148,9 +112,6 @@ func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserReq
 }
 func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
-}
-func (UnimplementedUserServiceServer) UploadAvatar(UserService_UploadAvatarServer) error {
-	return status.Errorf(codes.Unimplemented, "method UploadAvatar not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -255,32 +216,6 @@ func _UserService_SignUp_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_UploadAvatar_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(UserServiceServer).UploadAvatar(&userServiceUploadAvatarServer{stream})
-}
-
-type UserService_UploadAvatarServer interface {
-	SendAndClose(*UploadAvatarResponse) error
-	Recv() (*UploadAvatarRequest, error)
-	grpc.ServerStream
-}
-
-type userServiceUploadAvatarServer struct {
-	grpc.ServerStream
-}
-
-func (x *userServiceUploadAvatarServer) SendAndClose(m *UploadAvatarResponse) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *userServiceUploadAvatarServer) Recv() (*UploadAvatarRequest, error) {
-	m := new(UploadAvatarRequest)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -309,12 +244,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_SignUp_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "UploadAvatar",
-			Handler:       _UserService_UploadAvatar_Handler,
-			ClientStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "user/v1/user.proto",
 }

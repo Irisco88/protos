@@ -26,10 +26,6 @@ var UserServicePermission = &ServicePermission{
 			RPCName: "UpdateUser",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
 		},
-		"/user.v1.UserService/UploadAvatar": &MethodStreamInfo{
-			RPCName: "UploadAvatar",
-			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
-		},
 	},
 	ServiceName: "user.v1.UserService",
 }

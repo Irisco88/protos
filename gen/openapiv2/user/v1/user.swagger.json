@@ -174,50 +174,6 @@
           "UserService"
         ]
       }
-    },
-    "/api/v1/user/uploadavatar": {
-      "get": {
-        "operationId": "UserService_UploadAvatar",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1UploadAvatarResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "chunkData",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "byte"
-          },
-          {
-            "name": "photoInfo.userId",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "photoInfo.photoType",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "UserService"
-        ]
-      }
     }
   },
   "definitions": {
@@ -245,18 +201,6 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
-        }
-      }
-    },
-    "v1AvatarInfo": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "photoType": {
-          "type": "string"
         }
       }
     },
@@ -341,18 +285,6 @@
     },
     "v1UpdateUserResponse": {
       "type": "object"
-    },
-    "v1UploadAvatarResponse": {
-      "type": "object",
-      "properties": {
-        "size": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "photoId": {
-          "type": "string"
-        }
-      }
     },
     "v1User": {
       "type": "object",
