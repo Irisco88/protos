@@ -152,7 +152,7 @@ func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 // RegisterTrackingServiceHandlerFromEndpoint is same as RegisterTrackingServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterTrackingServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}

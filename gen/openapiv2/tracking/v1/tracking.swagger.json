@@ -115,6 +115,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -140,6 +141,7 @@
         "ioElements": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1IOElement"
           }
         },
@@ -186,8 +188,7 @@
           "format": "int32"
         },
         "value": {
-          "type": "string",
-          "format": "int64"
+          "$ref": "#/definitions/v1Value"
         }
       }
     },
@@ -208,6 +209,7 @@
         "points": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1AVLData"
           }
         }
@@ -229,6 +231,18 @@
         "PACKET_PRIORITY_PANIC"
       ],
       "default": "PACKET_PRIORITY_LOW"
+    },
+    "v1Value": {
+      "type": "object",
+      "properties": {
+        "elementName": {
+          "type": "string"
+        },
+        "elementValue": {
+          "type": "number",
+          "format": "float"
+        }
+      }
     }
   }
 }
