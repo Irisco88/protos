@@ -7,9 +7,9 @@
 package trackingv1
 
 import (
-	_ "github.com/openfms/protos/gen/common/v1"
-	v1 "github.com/openfms/protos/gen/device/v1"
-	_ "github.com/openfms/protos/gen/google/api"
+	_ "github.com/irisco88/protos/gen/common/v1"
+	v1 "github.com/irisco88/protos/gen/device/v1"
+	_ "github.com/irisco88/protos/gen/google/api"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

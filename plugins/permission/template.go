@@ -1,6 +1,6 @@
 package main
 
-import commonpb "github.com/openfms/protos/gen/common/v1"
+import commonpb "github.com/irisco88/protos/gen/common/v1"
 
 type ServicePermission struct {
 	ServiceName   string                       `json:"service_name"`

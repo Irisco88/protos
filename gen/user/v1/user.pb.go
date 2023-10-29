@@ -7,8 +7,8 @@
 package userv1
 
 import (
-	v1 "github.com/openfms/protos/gen/common/v1"
-	_ "github.com/openfms/protos/gen/google/api"
+	v1 "github.com/irisco88/protos/gen/common/v1"
+	_ "github.com/irisco88/protos/gen/google/api"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
