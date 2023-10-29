@@ -1,0 +1,461 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "devicemanager/v1/devicemanager.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "DeviceManagerService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/devicemanager/addnewdevice": {
+      "post": {
+        "operationId": "DeviceManagerService_AddNewDevice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AddNewDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AddNewDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DeviceManagerService"
+        ]
+      }
+    },
+    "/api/v1/devicemanager/deletedevice": {
+      "delete": {
+        "operationId": "DeviceManagerService_DeleteDevice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DeviceManagerService"
+        ]
+      }
+    },
+    "/api/v1/devicemanager/device/{id}": {
+      "get": {
+        "operationId": "DeviceManagerService_Device",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "DeviceManagerService"
+        ]
+      }
+    },
+    "/api/v1/devicemanager/devicemodels": {
+      "post": {
+        "operationId": "DeviceManagerService_DeviceModels",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeviceModelsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeviceModelsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DeviceManagerService"
+        ]
+      }
+    },
+    "/api/v1/devicemanager/devices": {
+      "post": {
+        "operationId": "DeviceManagerService_Devices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DevicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DevicesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DeviceManagerService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DeviceModelFeature": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AddNewDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "imei": {
+          "type": "string"
+        },
+        "simNumber": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "enabledFeatures": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "v1AddNewDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1CellularNetworkType": {
+      "type": "string",
+      "enum": [
+        "CELLULAR_NETWORK_UNKNOWN",
+        "CELLULAR_NETWORK_2G",
+        "CELLULAR_NETWORK_3G",
+        "CELLULAR_NETWORK_4G",
+        "CELLULAR_NETWORK_5G",
+        "CELLULAR_NETWORK_OTHER"
+      ],
+      "default": "CELLULAR_NETWORK_UNKNOWN"
+    },
+    "v1DeleteDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deletePoints": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1DeleteDeviceResponse": {
+      "type": "object"
+    },
+    "v1Device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "imei": {
+          "type": "string"
+        },
+        "simNumber": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "enabledFeatures": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "v1DeviceDetail": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "$ref": "#/definitions/v1Device"
+        },
+        "model": {
+          "$ref": "#/definitions/v1DeviceModel"
+        }
+      }
+    },
+    "v1DeviceModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "deviceType": {
+          "$ref": "#/definitions/v1DeviceType"
+        },
+        "description": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeviceModelFeature"
+          }
+        },
+        "documentationLink": {
+          "type": "string"
+        },
+        "photoLink": {
+          "type": "string"
+        },
+        "firmwareVersion": {
+          "type": "string"
+        },
+        "moduleName": {
+          "type": "string"
+        },
+        "networkType": {
+          "$ref": "#/definitions/v1CellularNetworkType"
+        }
+      }
+    },
+    "v1DeviceModelsRequest": {
+      "type": "object",
+      "properties": {
+        "searchFilter": {
+          "type": "string"
+        },
+        "deviceTypeFilter": {
+          "$ref": "#/definitions/v1DeviceType"
+        },
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "v1DeviceModelsResponse": {
+      "type": "object",
+      "properties": {
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1DeviceModel"
+          }
+        }
+      }
+    },
+    "v1DeviceResponse": {
+      "type": "object",
+      "properties": {
+        "deviceDetail": {
+          "$ref": "#/definitions/v1DeviceDetail"
+        }
+      }
+    },
+    "v1DeviceType": {
+      "type": "string",
+      "enum": [
+        "DEVICE_TYPE_OTHER",
+        "DEVICE_TYPE_GPS_TRACKER",
+        "DEVICE_TYPE_CAMERA",
+        "DEVICE_TYPE_SENSOR_BEACON",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_OBD_ADAPTER",
+        "DEVICE_TYPE_TELEMATICS_BOX"
+      ],
+      "default": "DEVICE_TYPE_OTHER"
+    },
+    "v1DevicesRequest": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "searchFilter": {
+          "type": "string",
+          "title": "imei or name"
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1DevicesResponse": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1DeviceDetail"
+          }
+        },
+        "hasNext": {
+          "type": "boolean"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    }
+  }
+}
