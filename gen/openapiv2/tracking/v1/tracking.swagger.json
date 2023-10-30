@@ -188,7 +188,11 @@
           "format": "int32"
         },
         "value": {
-          "$ref": "#/definitions/v1Value"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Value"
+          }
         }
       }
     },
