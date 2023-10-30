@@ -243,8 +243,8 @@
           "type": "string"
         },
         "elementValue": {
-          "type": "number",
-          "format": "float"
+          "type": "string",
+          "format": "int64"
         }
       }
     }
