@@ -243,8 +243,8 @@
           "type": "string"
         },
         "elementValue": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         }
       }
     }
