@@ -2,10 +2,11 @@ module github.com/irisco88/protos
 
 go 1.20
 
+replace google.golang.org/grpc => github.com/grpc/grpc-go v1.59.0
+
 require (
-	github.com/dave/jennifer v1.6.1
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.2
-	google.golang.org/grpc v1.59.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
+	google.golang.org/grpc v1.58.0
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -17,5 +18,3 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20230822172742-b8732ec3820d // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230822172742-b8732ec3820d // indirect
 )
-
-replace google.golang.org/grpc => github.com/grpc/grpc-go v1.59.0

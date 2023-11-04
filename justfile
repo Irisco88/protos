@@ -16,10 +16,6 @@ generate: lint
     # rm -rf ./gen
     buf generate ./
 
-# generate protos
-# generate: lint
-#     rm -rf ./gen
-#     buf generate
 
 
 
