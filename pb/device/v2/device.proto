@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package device.v1;
+package device.v2;
 
 message AVLData {
   string imei = 1;

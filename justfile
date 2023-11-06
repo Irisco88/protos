@@ -16,10 +16,6 @@ generate: lint
     # rm -rf ./gen
     buf generate ./
 
-
-
-
-
 gopath := `go env | grep GOPATH | cut -d "=" -f2 | tr -d '"'`
 # builds permission plugin
 plugin:
