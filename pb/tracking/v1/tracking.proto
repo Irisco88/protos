@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package tracking.v2;
+package tracking.v1;
 
-import "common/v2/permission.proto";
-import "device/v2/device.proto";
+import "common/v1/permission.proto";
+import "device/v1/device.proto";
 import "google/api/annotations.proto";
 
 service TrackingService {
   rpc LiveDevices(stream LiveDevicesRequest) returns (stream LiveDevicesResponse) {
-    option (google.api.http) = {get: "/api/v2/tracking/livedevices"};
-    option (common.v2.permission) = {
+    option (google.api.http) = {get: "/api/v1/tracking/livedevices"};
+    option (common.v1.permission) = {
       roles: [
         USER_ROLE_ADMIN,
         USER_ROLE_NORMAL,
@@ -19,10 +19,10 @@ service TrackingService {
   }
   rpc LastPoints(LastPointsRequest) returns (LastPointsResponse) {
     option (google.api.http) = {
-      post: "/api/v2/tracking/lastpoints",
+      post: "/api/v1/tracking/lastpoints",
       body: "*"
     };
-    option (common.v2.permission) = {
+    option (common.v1.permission) = {
       roles: [
         USER_ROLE_ADMIN,
         USER_ROLE_NORMAL,
@@ -35,12 +35,12 @@ message LastPointsRequest {
   repeated string imei_list = 1;
 }
 message LastPointsResponse {
-  repeated device.v2.AVLData points = 1;
+  repeated device.v1.AVLData points = 1;
 }
 message LiveDevicesRequest {
   repeated string imei_list = 1;
 }
 
 message LiveDevicesResponse {
-  device.v2.AVLData point = 1;
+  device.v1.AVLData point = 1;
 }
