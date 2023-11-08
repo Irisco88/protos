@@ -20,6 +20,10 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+//	message Value {
+//	 string element_name = 1;
+//	 double element_value = 2;
+//	}
 type PacketPriority int32
 
 const (
@@ -248,8 +252,10 @@ type IOElement struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ElementId int32    `protobuf:"varint,1,opt,name=element_id,json=elementId,proto3" json:"element_id,omitempty"`
-	Value     []*Value `protobuf:"bytes,2,rep,name=value,proto3" json:"value,omitempty"`
+	// int32 element_id = 1;
+	// repeated Value value = 2;
+	ElementName  string  `protobuf:"bytes,1,opt,name=element_name,json=elementName,proto3" json:"element_name,omitempty"`
+	ElementValue float64 `protobuf:"fixed64,2,opt,name=element_value,json=elementValue,proto3" json:"element_value,omitempty"`
 }
 
 func (x *IOElement) Reset() {
@@ -284,69 +290,14 @@ func (*IOElement) Descriptor() ([]byte, []int) {
 	return file_device_v1_device_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *IOElement) GetElementId() int32 {
-	if x != nil {
-		return x.ElementId
-	}
-	return 0
-}
-
-func (x *IOElement) GetValue() []*Value {
-	if x != nil {
-		return x.Value
-	}
-	return nil
-}
-
-type Value struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ElementName  string  `protobuf:"bytes,1,opt,name=element_name,json=elementName,proto3" json:"element_name,omitempty"`
-	ElementValue float64 `protobuf:"fixed64,2,opt,name=element_value,json=elementValue,proto3" json:"element_value,omitempty"`
-}
-
-func (x *Value) Reset() {
-	*x = Value{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_device_v1_device_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Value) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Value) ProtoMessage() {}
-
-func (x *Value) ProtoReflect() protoreflect.Message {
-	mi := &file_device_v1_device_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Value.ProtoReflect.Descriptor instead.
-func (*Value) Descriptor() ([]byte, []int) {
-	return file_device_v1_device_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *Value) GetElementName() string {
+func (x *IOElement) GetElementName() string {
 	if x != nil {
 		return x.ElementName
 	}
 	return ""
 }
 
-func (x *Value) GetElementValue() float64 {
+func (x *IOElement) GetElementValue() float64 {
 	if x != nil {
 		return x.ElementValue
 	}
@@ -383,13 +334,8 @@ var file_device_v1_device_proto_rawDesc = []byte{
 	0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x61, 0x74, 0x65, 0x6c, 0x6c, 0x69, 0x74, 0x65, 0x73, 0x18, 0x05,
 	0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x73, 0x61, 0x74, 0x65, 0x6c, 0x6c, 0x69, 0x74, 0x65, 0x73,
 	0x12, 0x14, 0x0a, 0x05, 0x73, 0x70, 0x65, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52,
-	0x05, 0x73, 0x70, 0x65, 0x65, 0x64, 0x22, 0x52, 0x0a, 0x09, 0x49, 0x4f, 0x45, 0x6c, 0x65, 0x6d,
-	0x65, 0x6e, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74,
-	0x49, 0x64, 0x12, 0x26, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x10, 0x2e, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x56, 0x61,
-	0x6c, 0x75, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x4f, 0x0a, 0x05, 0x56, 0x61,
-	0x6c, 0x75, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x6e,
+	0x05, 0x73, 0x70, 0x65, 0x65, 0x64, 0x22, 0x53, 0x0a, 0x09, 0x49, 0x4f, 0x45, 0x6c, 0x65, 0x6d,
+	0x65, 0x6e, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x6e,
 	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x65, 0x6c, 0x65, 0x6d, 0x65,
 	0x6e, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x6c, 0x65, 0x6d, 0x65, 0x6e,
 	0x74, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0c, 0x65,
@@ -425,24 +371,22 @@ func file_device_v1_device_proto_rawDescGZIP() []byte {
 }
 
 var file_device_v1_device_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_device_v1_device_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_device_v1_device_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_device_v1_device_proto_goTypes = []interface{}{
 	(PacketPriority)(0), // 0: device.v1.PacketPriority
 	(*AVLData)(nil),     // 1: device.v1.AVLData
 	(*GPS)(nil),         // 2: device.v1.GPS
 	(*IOElement)(nil),   // 3: device.v1.IOElement
-	(*Value)(nil),       // 4: device.v1.Value
 }
 var file_device_v1_device_proto_depIdxs = []int32{
 	0, // 0: device.v1.AVLData.priority:type_name -> device.v1.PacketPriority
 	2, // 1: device.v1.AVLData.gps:type_name -> device.v1.GPS
 	3, // 2: device.v1.AVLData.io_elements:type_name -> device.v1.IOElement
-	4, // 3: device.v1.IOElement.value:type_name -> device.v1.Value
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_device_v1_device_proto_init() }
@@ -487,18 +431,6 @@ func file_device_v1_device_proto_init() {
 				return nil
 			}
 		}
-		file_device_v1_device_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Value); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -506,7 +438,7 @@ func file_device_v1_device_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_device_v1_device_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

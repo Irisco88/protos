@@ -183,16 +183,13 @@
     "v1IOElement": {
       "type": "object",
       "properties": {
-        "elementId": {
-          "type": "integer",
-          "format": "int32"
+        "elementName": {
+          "type": "string",
+          "title": "int32 element_id = 1;\n repeated Value value = 2;"
         },
-        "value": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Value"
-          }
+        "elementValue": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
@@ -234,19 +231,8 @@
         "PACKET_PRIORITY_HIGH",
         "PACKET_PRIORITY_PANIC"
       ],
-      "default": "PACKET_PRIORITY_LOW"
-    },
-    "v1Value": {
-      "type": "object",
-      "properties": {
-        "elementName": {
-          "type": "string"
-        },
-        "elementValue": {
-          "type": "number",
-          "format": "double"
-        }
-      }
+      "default": "PACKET_PRIORITY_LOW",
+      "title": "message Value {\n string element_name = 1;\n double element_value = 2;\n}"
     }
   }
 }
