@@ -145,13 +145,6 @@
             "$ref": "#/definitions/v1IOElement"
           }
         },
-        "ioElementsVal": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1IOElementVal"
-          }
-        },
         "eventId": {
           "type": "integer",
           "format": "int64"
@@ -196,15 +189,6 @@
         "elementValue": {
           "type": "number",
           "format": "double"
-        }
-      }
-    },
-    "v1IOElementVal": {
-      "type": "object",
-      "properties": {
-        "elementId": {
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
