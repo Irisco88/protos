@@ -191,8 +191,7 @@
       "type": "object",
       "properties": {
         "elementName": {
-          "type": "string",
-          "title": "int32 element_id = 1;\n repeated Value value = 2;"
+          "type": "string"
         },
         "elementValue": {
           "type": "number",
@@ -206,10 +205,6 @@
         "elementId": {
           "type": "integer",
           "format": "int32"
-        },
-        "value": {
-          "type": "string",
-          "format": "int64"
         }
       }
     },
