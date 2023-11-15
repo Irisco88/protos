@@ -129,8 +129,8 @@
         },
         "timestamp": {
           "type": "string",
-          "format": "uint64",
-          "title": "millisecond"
+          "description": "millisecond",
+          "title": "uint64 timestamp = 2; //millisecond"
         },
         "priority": {
           "$ref": "#/definitions/v1PacketPriority"
