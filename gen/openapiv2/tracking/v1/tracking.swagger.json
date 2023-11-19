@@ -48,6 +48,52 @@
         ]
       }
     },
+    "/api/v1/tracking/lastpoints/{dateFilter}": {
+      "post": {
+        "operationId": "TrackingService_LastPointsData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LastPointsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dateFilter",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "imeiList": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "TrackingService"
+        ]
+      }
+    },
     "/api/v1/tracking/livedevices": {
       "get": {
         "operationId": "TrackingService_LiveDevices",
