@@ -30,10 +30,9 @@ service TrackingService {
       ]
     };
   }
-
   rpc LastPointsData(LastPointsDataRequest) returns (LastPointsResponse) {
     option (google.api.http) = {
-      post: "/api/v1/tracking/lastpoints/{date_filter}",
+      post: "/api/v1/tracking/lastpoints/{data_filter}",
       body: "*"
     };
     option (common.v1.permission) = {
@@ -46,12 +45,12 @@ service TrackingService {
   }
 }
 
-message LastPointsDataRequest {
-  repeated string imei_list = 1;
-  string date_filter = 2;
-}
 message LastPointsRequest {
   repeated string imei_list = 1;
+}
+message LastPointsDataRequest {
+  repeated string imei_list = 1;
+  string data_filter = 2;
 }
 message LastPointsResponse {
   repeated device.v1.AVLData points = 1;

@@ -127,14 +127,14 @@ func request_TrackingService_LastPointsData_0(ctx context.Context, marshaler run
 		_   = err
 	)
 
-	val, ok = pathParams["date_filter"]
+	val, ok = pathParams["data_filter"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "date_filter")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "data_filter")
 	}
 
-	protoReq.DateFilter, err = runtime.String(val)
+	protoReq.DataFilter, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "date_filter", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
 	}
 
 	msg, err := client.LastPointsData(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -161,14 +161,14 @@ func local_request_TrackingService_LastPointsData_0(ctx context.Context, marshal
 		_   = err
 	)
 
-	val, ok = pathParams["date_filter"]
+	val, ok = pathParams["data_filter"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "date_filter")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "data_filter")
 	}
 
-	protoReq.DateFilter, err = runtime.String(val)
+	protoReq.DataFilter, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "date_filter", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
 	}
 
 	msg, err := server.LastPointsData(ctx, &protoReq)
@@ -222,7 +222,7 @@ func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints/{date_filter}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints/{data_filter}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -330,7 +330,7 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints/{date_filter}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints/{data_filter}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -354,7 +354,7 @@ var (
 
 	pattern_TrackingService_LastPoints_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "tracking", "lastpoints"}, ""))
 
-	pattern_TrackingService_LastPointsData_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "tracking", "lastpoints", "date_filter"}, ""))
+	pattern_TrackingService_LastPointsData_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "tracking", "lastpoints", "data_filter"}, ""))
 )
 
 var (

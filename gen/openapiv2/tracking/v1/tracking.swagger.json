@@ -48,7 +48,7 @@
         ]
       }
     },
-    "/api/v1/tracking/lastpoints/{dateFilter}": {
+    "/api/v1/tracking/lastpoints/{dataFilter}": {
       "post": {
         "operationId": "TrackingService_LastPointsData",
         "responses": {
@@ -67,7 +67,7 @@
         },
         "parameters": [
           {
-            "name": "dateFilter",
+            "name": "dataFilter",
             "in": "path",
             "required": true,
             "type": "string"
