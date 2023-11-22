@@ -32,8 +32,8 @@ service TrackingService {
   }
   rpc LastPointsData(LastPointsDataRequest) returns (LastPointsResponse) {
     option (google.api.http) = {
-      post: "/api/v1/tracking/lastpoints/{data_filter}",
-      body: "*"
+      get: "/api/v1/tracking/points/{data_filter}",
+      //      body: "*"
     };
     option (common.v1.permission) = {
       roles: [
@@ -49,7 +49,6 @@ message LastPointsRequest {
   repeated string imei_list = 1;
 }
 message LastPointsDataRequest {
-  repeated string imei_list = 1;
   string data_filter = 2;
 }
 message LastPointsResponse {
