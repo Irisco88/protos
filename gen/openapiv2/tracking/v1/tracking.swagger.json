@@ -219,6 +219,13 @@
         "elementValue": {
           "type": "number",
           "format": "double"
+        },
+        "normalValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "colorValue": {
+          "type": "string"
         }
       }
     },
