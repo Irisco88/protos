@@ -22,6 +22,7 @@ const (
 	TrackingService_LiveDevices_FullMethodName    = "/tracking.v1.TrackingService/LiveDevices"
 	TrackingService_LastPoints_FullMethodName     = "/tracking.v1.TrackingService/LastPoints"
 	TrackingService_LastPointsData_FullMethodName = "/tracking.v1.TrackingService/LastPointsData"
+	TrackingService_AllPointsData_FullMethodName  = "/tracking.v1.TrackingService/AllPointsData"
 )
 
 // TrackingServiceClient is the client API for TrackingService service.
@@ -30,7 +31,8 @@ const (
 type TrackingServiceClient interface {
 	LiveDevices(ctx context.Context, opts ...grpc.CallOption) (TrackingService_LiveDevicesClient, error)
 	LastPoints(ctx context.Context, in *LastPointsRequest, opts ...grpc.CallOption) (*LastPointsResponse, error)
-	LastPointsData(ctx context.Context, in *LastPointsDataRequest, opts ...grpc.CallOption) (*LastPointsResponse, error)
+	LastPointsData(ctx context.Context, in *LastPointsDataRequest, opts ...grpc.CallOption) (*LastPointsDataResponse, error)
+	AllPointsData(ctx context.Context, in *AllPointsDataRequest, opts ...grpc.CallOption) (*AllPointsDataResponse, error)
 }
 
 type trackingServiceClient struct {
@@ -81,9 +83,18 @@ func (c *trackingServiceClient) LastPoints(ctx context.Context, in *LastPointsRe
 	return out, nil
 }
 
-func (c *trackingServiceClient) LastPointsData(ctx context.Context, in *LastPointsDataRequest, opts ...grpc.CallOption) (*LastPointsResponse, error) {
-	out := new(LastPointsResponse)
+func (c *trackingServiceClient) LastPointsData(ctx context.Context, in *LastPointsDataRequest, opts ...grpc.CallOption) (*LastPointsDataResponse, error) {
+	out := new(LastPointsDataResponse)
 	err := c.cc.Invoke(ctx, TrackingService_LastPointsData_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *trackingServiceClient) AllPointsData(ctx context.Context, in *AllPointsDataRequest, opts ...grpc.CallOption) (*AllPointsDataResponse, error) {
+	out := new(AllPointsDataResponse)
+	err := c.cc.Invoke(ctx, TrackingService_AllPointsData_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +107,8 @@ func (c *trackingServiceClient) LastPointsData(ctx context.Context, in *LastPoin
 type TrackingServiceServer interface {
 	LiveDevices(TrackingService_LiveDevicesServer) error
 	LastPoints(context.Context, *LastPointsRequest) (*LastPointsResponse, error)
-	LastPointsData(context.Context, *LastPointsDataRequest) (*LastPointsResponse, error)
+	LastPointsData(context.Context, *LastPointsDataRequest) (*LastPointsDataResponse, error)
+	AllPointsData(context.Context, *AllPointsDataRequest) (*AllPointsDataResponse, error)
 	mustEmbedUnimplementedTrackingServiceServer()
 }
 
@@ -110,8 +122,11 @@ func (UnimplementedTrackingServiceServer) LiveDevices(TrackingService_LiveDevice
 func (UnimplementedTrackingServiceServer) LastPoints(context.Context, *LastPointsRequest) (*LastPointsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LastPoints not implemented")
 }
-func (UnimplementedTrackingServiceServer) LastPointsData(context.Context, *LastPointsDataRequest) (*LastPointsResponse, error) {
+func (UnimplementedTrackingServiceServer) LastPointsData(context.Context, *LastPointsDataRequest) (*LastPointsDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LastPointsData not implemented")
+}
+func (UnimplementedTrackingServiceServer) AllPointsData(context.Context, *AllPointsDataRequest) (*AllPointsDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AllPointsData not implemented")
 }
 func (UnimplementedTrackingServiceServer) mustEmbedUnimplementedTrackingServiceServer() {}
 
@@ -188,6 +203,24 @@ func _TrackingService_LastPointsData_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TrackingService_AllPointsData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AllPointsDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrackingServiceServer).AllPointsData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TrackingService_AllPointsData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrackingServiceServer).AllPointsData(ctx, req.(*AllPointsDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TrackingService_ServiceDesc is the grpc.ServiceDesc for TrackingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +235,10 @@ var TrackingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LastPointsData",
 			Handler:    _TrackingService_LastPointsData_Handler,
+		},
+		{
+			MethodName: "AllPointsData",
+			Handler:    _TrackingService_AllPointsData_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

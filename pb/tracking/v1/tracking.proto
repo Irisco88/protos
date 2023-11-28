@@ -30,9 +30,22 @@ service TrackingService {
       ]
     };
   }
-  rpc LastPointsData(LastPointsDataRequest) returns (LastPointsResponse) {
+  rpc LastPointsData(LastPointsDataRequest) returns (LastPointsDataResponse) {
     option (google.api.http) = {
       get: "/api/v1/tracking/points/{data_filter}",
+      //      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL,
+        USER_ROLE_READER
+      ]
+    };
+  }
+  rpc AllPointsData(AllPointsDataRequest) returns (AllPointsDataResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/tracking/Allpoints/{data_filter}",
       //      body: "*"
     };
     option (common.v1.permission) = {
@@ -49,9 +62,18 @@ message LastPointsRequest {
   repeated string imei_list = 1;
 }
 message LastPointsDataRequest {
-  string data_filter = 2;
+  string data_filter = 1;
+}
+message AllPointsDataRequest {
+  string data_filter = 1;
 }
 message LastPointsResponse {
+  repeated device.v1.AVLData points = 1;
+}
+message LastPointsDataResponse {
+  repeated device.v1.AVLData points = 1;
+}
+message AllPointsDataResponse {
   repeated device.v1.AVLData points = 1;
 }
 message LiveDevicesRequest {

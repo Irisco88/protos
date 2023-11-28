@@ -16,6 +16,36 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/tracking/Allpoints/{dataFilter}": {
+      "get": {
+        "operationId": "TrackingService_AllPointsData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AllPointsDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dataFilter",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TrackingService"
+        ]
+      }
+    },
     "/api/v1/tracking/lastpoints": {
       "post": {
         "operationId": "TrackingService_LastPoints",
@@ -98,7 +128,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1LastPointsResponse"
+              "$ref": "#/definitions/v1LastPointsDataResponse"
             }
           },
           "default": {
@@ -181,6 +211,18 @@
         }
       }
     },
+    "v1AllPointsDataResponse": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AVLData"
+          }
+        }
+      }
+    },
     "v1GPS": {
       "type": "object",
       "properties": {
@@ -226,6 +268,18 @@
         },
         "colorValue": {
           "type": "string"
+        }
+      }
+    },
+    "v1LastPointsDataResponse": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AVLData"
+          }
         }
       }
     },

@@ -14,6 +14,10 @@ type ServicePermission struct {
 
 var TrackingServicePermission = &ServicePermission{
 	MethodStreams: map[string]*MethodStreamInfo{
+		"/tracking.v1.TrackingService/AllPointsData": &MethodStreamInfo{
+			RPCName: "AllPointsData",
+			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL, commonpb.UserRole_USER_ROLE_READER},
+		},
 		"/tracking.v1.TrackingService/LastPoints": &MethodStreamInfo{
 			RPCName: "LastPoints",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL, commonpb.UserRole_USER_ROLE_READER},
