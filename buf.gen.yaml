@@ -3,23 +3,27 @@ managed:
   enabled: true
   go_package_prefix:
     default: github.com/irisco88/protos/gen
+
 plugins:
-  - plugin: go
+  - name: go
     out: gen
     opt:
       - paths=source_relative
-  - plugin: go-grpc
+
+  - name: go-grpc
     out: gen
     opt:
       - paths=source_relative
-  - plugin: grpc-gateway
+
+  - name: grpc-gateway
     out: gen
     opt:
       - paths=source_relative
-      - generate_unbound_methods=false
-  - plugin: openapiv2
+
+  - name: openapiv2
     out: gen/openapiv2
-  - plugin: permission
+
+  - name: permission
     out: gen
     opt:
       - paths=source_relative
