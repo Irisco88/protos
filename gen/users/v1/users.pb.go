@@ -75,13 +75,6 @@ type GetUsersResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// string first_name = 1;
-	// string last_name = 2;
-	// string user_name = 3;
-	// string email = 4;
-	// string password = 5;
-	// string avatar = 6;
-	// string roll = 7;
 	Usrs []*v1.User `protobuf:"bytes,1,rep,name=usrs,proto3" json:"usrs,omitempty"`
 }
 
