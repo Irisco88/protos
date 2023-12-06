@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package users.v1;
+
+import "common/v1/permission.proto";
+import "google/api/annotations.proto";
+import "user/v1/user.proto";
+
+service UsersService {
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {
+    option (google.api.http) = {get: "/api/v1/users/{data_filter}"};
+    option (common.v1.permission) = {
+      roles: [USER_ROLE_ADMIN]
+    };
+  }
+}
+
+message GetUsersRequest {
+  string data_filter = 1;
+}
+
+message GetUsersResponse {
+  //   string first_name = 1;
+  //   string last_name = 2;
+  //   string user_name = 3;
+  //   string email = 4;
+  //   string password = 5;
+  //   string avatar = 6;
+  //   string roll = 7;
+  repeated user.v1.User usrs = 1;
+}
