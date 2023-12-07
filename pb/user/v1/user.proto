@@ -48,6 +48,10 @@ service UserService {
       body: "*"
     };
   }
+
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {get: "/api/v1/users"};
+  }
 }
 
 message User {
@@ -61,6 +65,11 @@ message User {
   string avatar = 8;
 }
 
+message ListUsersRequest {}
+
+message ListUsersResponse {
+  repeated User users = 1;
+}
 message UpdateUserRequest {
   User user = 1;
 }
