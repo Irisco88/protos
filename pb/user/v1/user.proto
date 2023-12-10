@@ -21,6 +21,7 @@ service UserService {
       roles: [USER_ROLE_ADMIN]
     };
   }
+
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
     option (google.api.http) = {
       put: "/api/v1/user/updateuser"
@@ -33,6 +34,7 @@ service UserService {
       ]
     };
   }
+
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
     option (google.api.http) = {delete: "/api/v1/user/deleteuser/{user_id}"};
     option (common.v1.permission) = {
@@ -52,6 +54,40 @@ service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = {get: "/api/v1/user/list"};
   }
+
+  rpc CreateImei(CreateImeiRequest) returns (CreateImeiResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/createimei"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [USER_ROLE_ADMIN]
+    };
+  }
+  rpc UpdateImei(UpdateImeiRequest) returns (UpdateImeiResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/user/updateimei"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+  rpc DeleteImei(DeleteImeiRequest) returns (DeleteImeiResponse) {
+    option (google.api.http) = {delete: "/api/v1/user/deleteimei/{imei_id}"};
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+  rpc ListImeis(ListImeisRequest) returns (ListImeisResponse) {
+    option (google.api.http) = {get: "/api/v1/user/imei"};
+  }
 }
 
 message User {
@@ -65,8 +101,13 @@ message User {
   string avatar = 8;
 }
 
-message ListUsersRequest {}
+message Imei {
+  uint32 id = 1;
+  string device_imei = 2;
+  string device_name = 3;
+}
 
+message ListUsersRequest {}
 message ListUsersResponse {
   repeated User users = 1;
 }
@@ -112,4 +153,23 @@ message SignUpRequest {
 
 message SignUpResponse {
   string token = 1;
+}
+
+message CreateImeiRequest {
+  Imei imei = 1;
+}
+message CreateImeiResponse {
+  uint32 imei_id = 1;
+}
+message UpdateImeiRequest {
+  Imei imei = 1;
+}
+message UpdateImeiResponse {}
+message DeleteImeiRequest {
+  uint32 imei_id = 1;
+}
+message DeleteImeiResponse {}
+message ListImeisRequest {}
+message ListImeisResponse {
+  repeated Imei imeis = 1;
 }

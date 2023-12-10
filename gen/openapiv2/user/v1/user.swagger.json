@@ -16,6 +16,38 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/user/createimei": {
+      "post": {
+        "operationId": "UserService_CreateImei",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateImeiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateImeiRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
     "/api/v1/user/createuser": {
       "post": {
         "operationId": "UserService_CreateUser",
@@ -41,6 +73,37 @@
             "schema": {
               "$ref": "#/definitions/v1CreateUserRequest"
             }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
+    "/api/v1/user/deleteimei/{imeiId}": {
+      "delete": {
+        "operationId": "UserService_DeleteImei",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteImeiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "imeiId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -74,6 +137,28 @@
             "format": "int64"
           }
         ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
+    "/api/v1/user/imei": {
+      "get": {
+        "operationId": "UserService_ListImeis",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListImeisResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "UserService"
         ]
@@ -165,6 +250,38 @@
         ]
       }
     },
+    "/api/v1/user/updateimei": {
+      "put": {
+        "operationId": "UserService_UpdateImei",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateImeiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateImeiRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
     "/api/v1/user/updateuser": {
       "put": {
         "operationId": "UserService_UpdateUser",
@@ -227,6 +344,23 @@
         }
       }
     },
+    "v1CreateImeiRequest": {
+      "type": "object",
+      "properties": {
+        "imei": {
+          "$ref": "#/definitions/v1Imei"
+        }
+      }
+    },
+    "v1CreateImeiResponse": {
+      "type": "object",
+      "properties": {
+        "imeiId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "v1CreateUserRequest": {
       "type": "object",
       "properties": {
@@ -244,8 +378,38 @@
         }
       }
     },
+    "v1DeleteImeiResponse": {
+      "type": "object"
+    },
     "v1DeleteUserResponse": {
       "type": "object"
+    },
+    "v1Imei": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "deviceImei": {
+          "type": "string"
+        },
+        "deviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListImeisResponse": {
+      "type": "object",
+      "properties": {
+        "imeis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Imei"
+          }
+        }
+      }
     },
     "v1ListUsersResponse": {
       "type": "object",
@@ -317,6 +481,17 @@
           "type": "string"
         }
       }
+    },
+    "v1UpdateImeiRequest": {
+      "type": "object",
+      "properties": {
+        "imei": {
+          "$ref": "#/definitions/v1Imei"
+        }
+      }
+    },
+    "v1UpdateImeiResponse": {
+      "type": "object"
     },
     "v1UpdateUserRequest": {
       "type": "object",

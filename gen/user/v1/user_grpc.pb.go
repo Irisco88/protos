@@ -25,6 +25,10 @@ const (
 	UserService_DeleteUser_FullMethodName = "/user.v1.UserService/DeleteUser"
 	UserService_SignUp_FullMethodName     = "/user.v1.UserService/SignUp"
 	UserService_ListUsers_FullMethodName  = "/user.v1.UserService/ListUsers"
+	UserService_CreateImei_FullMethodName = "/user.v1.UserService/CreateImei"
+	UserService_UpdateImei_FullMethodName = "/user.v1.UserService/UpdateImei"
+	UserService_DeleteImei_FullMethodName = "/user.v1.UserService/DeleteImei"
+	UserService_ListImeis_FullMethodName  = "/user.v1.UserService/ListImeis"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -37,6 +41,10 @@ type UserServiceClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	CreateImei(ctx context.Context, in *CreateImeiRequest, opts ...grpc.CallOption) (*CreateImeiResponse, error)
+	UpdateImei(ctx context.Context, in *UpdateImeiRequest, opts ...grpc.CallOption) (*UpdateImeiResponse, error)
+	DeleteImei(ctx context.Context, in *DeleteImeiRequest, opts ...grpc.CallOption) (*DeleteImeiResponse, error)
+	ListImeis(ctx context.Context, in *ListImeisRequest, opts ...grpc.CallOption) (*ListImeisResponse, error)
 }
 
 type userServiceClient struct {
@@ -101,6 +109,42 @@ func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest,
 	return out, nil
 }
 
+func (c *userServiceClient) CreateImei(ctx context.Context, in *CreateImeiRequest, opts ...grpc.CallOption) (*CreateImeiResponse, error) {
+	out := new(CreateImeiResponse)
+	err := c.cc.Invoke(ctx, UserService_CreateImei_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateImei(ctx context.Context, in *UpdateImeiRequest, opts ...grpc.CallOption) (*UpdateImeiResponse, error) {
+	out := new(UpdateImeiResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateImei_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) DeleteImei(ctx context.Context, in *DeleteImeiRequest, opts ...grpc.CallOption) (*DeleteImeiResponse, error) {
+	out := new(DeleteImeiResponse)
+	err := c.cc.Invoke(ctx, UserService_DeleteImei_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) ListImeis(ctx context.Context, in *ListImeisRequest, opts ...grpc.CallOption) (*ListImeisResponse, error) {
+	out := new(ListImeisResponse)
+	err := c.cc.Invoke(ctx, UserService_ListImeis_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -111,6 +155,10 @@ type UserServiceServer interface {
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	CreateImei(context.Context, *CreateImeiRequest) (*CreateImeiResponse, error)
+	UpdateImei(context.Context, *UpdateImeiRequest) (*UpdateImeiResponse, error)
+	DeleteImei(context.Context, *DeleteImeiRequest) (*DeleteImeiResponse, error)
+	ListImeis(context.Context, *ListImeisRequest) (*ListImeisResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -135,6 +183,18 @@ func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*
 }
 func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedUserServiceServer) CreateImei(context.Context, *CreateImeiRequest) (*CreateImeiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateImei not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateImei(context.Context, *UpdateImeiRequest) (*UpdateImeiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateImei not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteImei(context.Context, *DeleteImeiRequest) (*DeleteImeiResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteImei not implemented")
+}
+func (UnimplementedUserServiceServer) ListImeis(context.Context, *ListImeisRequest) (*ListImeisResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListImeis not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -257,6 +317,78 @@ func _UserService_ListUsers_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_CreateImei_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateImeiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CreateImei(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_CreateImei_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CreateImei(ctx, req.(*CreateImeiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateImei_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateImeiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateImei(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateImei_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateImei(ctx, req.(*UpdateImeiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_DeleteImei_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteImeiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteImei(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteImei_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteImei(ctx, req.(*DeleteImeiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_ListImeis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListImeisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListImeis(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ListImeis_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListImeis(ctx, req.(*ListImeisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -287,6 +419,22 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUsers",
 			Handler:    _UserService_ListUsers_Handler,
+		},
+		{
+			MethodName: "CreateImei",
+			Handler:    _UserService_CreateImei_Handler,
+		},
+		{
+			MethodName: "UpdateImei",
+			Handler:    _UserService_UpdateImei_Handler,
+		},
+		{
+			MethodName: "DeleteImei",
+			Handler:    _UserService_DeleteImei_Handler,
+		},
+		{
+			MethodName: "ListImeis",
+			Handler:    _UserService_ListImeis_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

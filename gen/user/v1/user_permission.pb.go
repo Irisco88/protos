@@ -14,12 +14,24 @@ type ServicePermission struct {
 
 var UserServicePermission = &ServicePermission{
 	MethodStreams: map[string]*MethodStreamInfo{
+		"/user.v1.UserService/CreateImei": &MethodStreamInfo{
+			RPCName: "CreateImei",
+			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN},
+		},
 		"/user.v1.UserService/CreateUser": &MethodStreamInfo{
 			RPCName: "CreateUser",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN},
 		},
+		"/user.v1.UserService/DeleteImei": &MethodStreamInfo{
+			RPCName: "DeleteImei",
+			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
+		},
 		"/user.v1.UserService/DeleteUser": &MethodStreamInfo{
 			RPCName: "DeleteUser",
+			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
+		},
+		"/user.v1.UserService/UpdateImei": &MethodStreamInfo{
+			RPCName: "UpdateImei",
 			Roles:   []commonpb.UserRole{commonpb.UserRole_USER_ROLE_ADMIN, commonpb.UserRole_USER_ROLE_NORMAL},
 		},
 		"/user.v1.UserService/UpdateUser": &MethodStreamInfo{
