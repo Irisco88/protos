@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package imeis.v1;
+
+import "common/v1/permission.proto";
+import "google/api/annotations.proto";
+
+service ImeisService {
+  rpc CreateImeis(CreateImeisRequest) returns (CreateImeisResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/imei/createimei"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [USER_ROLE_ADMIN]
+    };
+  }
+
+  rpc UpdateImeis(UpdateImeisRequest) returns (UpdateImeisResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/imei/updateimei"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc DeleteImeis(DeleteImeisRequest) returns (DeleteImeisResponse) {
+    option (google.api.http) = {delete: "/api/v1/imeis/deleteimeis/{imeis_id}"};
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc ListImeis(ListImeisRequest) returns (ListImeisResponse) {
+    option (google.api.http) = {get: "/api/v1/imeis/list"};
+  }
+}
+
+message Imeis {
+  uint32 id = 1;
+  string imeis_name = 2;
+  string device_name = 3;
+}
+
+message ListImeisRequest {}
+message ListImeisResponse {
+  repeated Imeis imeis = 1;
+}
+message UpdateImeisRequest {
+  Imeis imeis = 1;
+}
+message UpdateImeisResponse {}
+
+message CreateImeisRequest {
+  Imeis imeis = 1;
+}
+
+message CreateImeisResponse {
+  uint32 imeis_id = 1;
+}
+
+message DeleteImeisRequest {
+  uint32 imeis_id = 1;
+}
+
+message DeleteImeisResponse {}
