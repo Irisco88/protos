@@ -8,7 +8,7 @@ import "google/api/annotations.proto";
 service ImeisService {
   rpc CreateImeis(CreateImeisRequest) returns (CreateImeisResponse) {
     option (google.api.http) = {
-      post: "/api/v1/imei/createimei"
+      post: "/api/v1/imeis/createimei"
       body: "*"
     };
     option (common.v1.permission) = {
@@ -18,7 +18,7 @@ service ImeisService {
 
   rpc UpdateImeis(UpdateImeisRequest) returns (UpdateImeisResponse) {
     option (google.api.http) = {
-      put: "/api/v1/imei/updateimei"
+      put: "/api/v1/imeis/updateimei"
       body: "*"
     };
     option (common.v1.permission) = {
@@ -39,7 +39,7 @@ service ImeisService {
     };
   }
 
-  rpc ListImeis(ListImeisRequest) returns (ListImeisResponse) {
+  rpc ListImeiss(ListImeissRequest) returns (ListImeissResponse) {
     option (google.api.http) = {get: "/api/v1/imeis/list"};
   }
 }
@@ -50,9 +50,9 @@ message Imeis {
   string device_name = 3;
 }
 
-message ListImeisRequest {}
-message ListImeisResponse {
-  repeated Imeis imeis = 1;
+message ListImeissRequest {}
+message ListImeissResponse {
+  repeated Imeis imeiss = 1;
 }
 message UpdateImeisRequest {
   Imeis imeis = 1;

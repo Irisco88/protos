@@ -22,7 +22,7 @@ const (
 	ImeisService_CreateImeis_FullMethodName = "/imeis.v1.ImeisService/CreateImeis"
 	ImeisService_UpdateImeis_FullMethodName = "/imeis.v1.ImeisService/UpdateImeis"
 	ImeisService_DeleteImeis_FullMethodName = "/imeis.v1.ImeisService/DeleteImeis"
-	ImeisService_ListImeis_FullMethodName   = "/imeis.v1.ImeisService/ListImeis"
+	ImeisService_ListImeiss_FullMethodName  = "/imeis.v1.ImeisService/ListImeiss"
 )
 
 // ImeisServiceClient is the client API for ImeisService service.
@@ -32,7 +32,7 @@ type ImeisServiceClient interface {
 	CreateImeis(ctx context.Context, in *CreateImeisRequest, opts ...grpc.CallOption) (*CreateImeisResponse, error)
 	UpdateImeis(ctx context.Context, in *UpdateImeisRequest, opts ...grpc.CallOption) (*UpdateImeisResponse, error)
 	DeleteImeis(ctx context.Context, in *DeleteImeisRequest, opts ...grpc.CallOption) (*DeleteImeisResponse, error)
-	ListImeis(ctx context.Context, in *ListImeisRequest, opts ...grpc.CallOption) (*ListImeisResponse, error)
+	ListImeiss(ctx context.Context, in *ListImeissRequest, opts ...grpc.CallOption) (*ListImeissResponse, error)
 }
 
 type imeisServiceClient struct {
@@ -70,9 +70,9 @@ func (c *imeisServiceClient) DeleteImeis(ctx context.Context, in *DeleteImeisReq
 	return out, nil
 }
 
-func (c *imeisServiceClient) ListImeis(ctx context.Context, in *ListImeisRequest, opts ...grpc.CallOption) (*ListImeisResponse, error) {
-	out := new(ListImeisResponse)
-	err := c.cc.Invoke(ctx, ImeisService_ListImeis_FullMethodName, in, out, opts...)
+func (c *imeisServiceClient) ListImeiss(ctx context.Context, in *ListImeissRequest, opts ...grpc.CallOption) (*ListImeissResponse, error) {
+	out := new(ListImeissResponse)
+	err := c.cc.Invoke(ctx, ImeisService_ListImeiss_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ type ImeisServiceServer interface {
 	CreateImeis(context.Context, *CreateImeisRequest) (*CreateImeisResponse, error)
 	UpdateImeis(context.Context, *UpdateImeisRequest) (*UpdateImeisResponse, error)
 	DeleteImeis(context.Context, *DeleteImeisRequest) (*DeleteImeisResponse, error)
-	ListImeis(context.Context, *ListImeisRequest) (*ListImeisResponse, error)
+	ListImeiss(context.Context, *ListImeissRequest) (*ListImeissResponse, error)
 	mustEmbedUnimplementedImeisServiceServer()
 }
 
@@ -103,8 +103,8 @@ func (UnimplementedImeisServiceServer) UpdateImeis(context.Context, *UpdateImeis
 func (UnimplementedImeisServiceServer) DeleteImeis(context.Context, *DeleteImeisRequest) (*DeleteImeisResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteImeis not implemented")
 }
-func (UnimplementedImeisServiceServer) ListImeis(context.Context, *ListImeisRequest) (*ListImeisResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListImeis not implemented")
+func (UnimplementedImeisServiceServer) ListImeiss(context.Context, *ListImeissRequest) (*ListImeissResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListImeiss not implemented")
 }
 func (UnimplementedImeisServiceServer) mustEmbedUnimplementedImeisServiceServer() {}
 
@@ -173,20 +173,20 @@ func _ImeisService_DeleteImeis_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ImeisService_ListImeis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListImeisRequest)
+func _ImeisService_ListImeiss_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListImeissRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ImeisServiceServer).ListImeis(ctx, in)
+		return srv.(ImeisServiceServer).ListImeiss(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ImeisService_ListImeis_FullMethodName,
+		FullMethod: ImeisService_ListImeiss_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ImeisServiceServer).ListImeis(ctx, req.(*ListImeisRequest))
+		return srv.(ImeisServiceServer).ListImeiss(ctx, req.(*ListImeissRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -211,8 +211,8 @@ var ImeisService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ImeisService_DeleteImeis_Handler,
 		},
 		{
-			MethodName: "ListImeis",
-			Handler:    _ImeisService_ListImeis_Handler,
+			MethodName: "ListImeiss",
+			Handler:    _ImeisService_ListImeiss_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

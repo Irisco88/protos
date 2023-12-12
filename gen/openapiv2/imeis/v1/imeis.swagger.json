@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/imei/createimei": {
+    "/api/v1/imeis/createimei": {
       "post": {
         "operationId": "ImeisService_CreateImeis",
         "responses": {
@@ -40,38 +40,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1CreateImeisRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ImeisService"
-        ]
-      }
-    },
-    "/api/v1/imei/updateimei": {
-      "put": {
-        "operationId": "ImeisService_UpdateImeis",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1UpdateImeisResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateImeisRequest"
             }
           }
         ],
@@ -113,12 +81,12 @@
     },
     "/api/v1/imeis/list": {
       "get": {
-        "operationId": "ImeisService_ListImeis",
+        "operationId": "ImeisService_ListImeiss",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListImeisResponse"
+              "$ref": "#/definitions/v1ListImeissResponse"
             }
           },
           "default": {
@@ -128,6 +96,38 @@
             }
           }
         },
+        "tags": [
+          "ImeisService"
+        ]
+      }
+    },
+    "/api/v1/imeis/updateimei": {
+      "put": {
+        "operationId": "ImeisService_UpdateImeis",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateImeisResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateImeisRequest"
+            }
+          }
+        ],
         "tags": [
           "ImeisService"
         ]
@@ -198,10 +198,10 @@
         }
       }
     },
-    "v1ListImeisResponse": {
+    "v1ListImeissResponse": {
       "type": "object",
       "properties": {
-        "imeis": {
+        "imeiss": {
           "type": "array",
           "items": {
             "type": "object",

@@ -151,20 +151,20 @@ func local_request_ImeisService_DeleteImeis_0(ctx context.Context, marshaler run
 
 }
 
-func request_ImeisService_ListImeis_0(ctx context.Context, marshaler runtime.Marshaler, client ImeisServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListImeisRequest
+func request_ImeisService_ListImeiss_0(ctx context.Context, marshaler runtime.Marshaler, client ImeisServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListImeissRequest
 	var metadata runtime.ServerMetadata
 
-	msg, err := client.ListImeis(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListImeiss(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_ImeisService_ListImeis_0(ctx context.Context, marshaler runtime.Marshaler, server ImeisServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListImeisRequest
+func local_request_ImeisService_ListImeiss_0(ctx context.Context, marshaler runtime.Marshaler, server ImeisServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListImeissRequest
 	var metadata runtime.ServerMetadata
 
-	msg, err := server.ListImeis(ctx, &protoReq)
+	msg, err := server.ListImeiss(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -183,7 +183,7 @@ func RegisterImeisServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/CreateImeis", runtime.WithHTTPPathPattern("/api/v1/imei/createimei"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/CreateImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/createimei"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -208,7 +208,7 @@ func RegisterImeisServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/UpdateImeis", runtime.WithHTTPPathPattern("/api/v1/imei/updateimei"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/UpdateImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/updateimei"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -250,7 +250,7 @@ func RegisterImeisServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_ImeisService_ListImeis_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_ImeisService_ListImeiss_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -258,12 +258,12 @@ func RegisterImeisServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/ListImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/list"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/imeis.v1.ImeisService/ListImeiss", runtime.WithHTTPPathPattern("/api/v1/imeis/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_ImeisService_ListImeis_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_ImeisService_ListImeiss_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -271,7 +271,7 @@ func RegisterImeisServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_ImeisService_ListImeis_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ImeisService_ListImeiss_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -322,7 +322,7 @@ func RegisterImeisServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/CreateImeis", runtime.WithHTTPPathPattern("/api/v1/imei/createimei"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/CreateImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/createimei"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -344,7 +344,7 @@ func RegisterImeisServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/UpdateImeis", runtime.WithHTTPPathPattern("/api/v1/imei/updateimei"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/UpdateImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/updateimei"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -382,25 +382,25 @@ func RegisterImeisServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_ImeisService_ListImeis_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_ImeisService_ListImeiss_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/ListImeis", runtime.WithHTTPPathPattern("/api/v1/imeis/list"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/imeis.v1.ImeisService/ListImeiss", runtime.WithHTTPPathPattern("/api/v1/imeis/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ImeisService_ListImeis_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ImeisService_ListImeiss_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ImeisService_ListImeis_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_ImeisService_ListImeiss_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -408,13 +408,13 @@ func RegisterImeisServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_ImeisService_CreateImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imei", "createimei"}, ""))
+	pattern_ImeisService_CreateImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imeis", "createimei"}, ""))
 
-	pattern_ImeisService_UpdateImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imei", "updateimei"}, ""))
+	pattern_ImeisService_UpdateImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imeis", "updateimei"}, ""))
 
 	pattern_ImeisService_DeleteImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "imeis", "deleteimeis", "imeis_id"}, ""))
 
-	pattern_ImeisService_ListImeis_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imeis", "list"}, ""))
+	pattern_ImeisService_ListImeiss_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "imeis", "list"}, ""))
 )
 
 var (
@@ -424,5 +424,5 @@ var (
 
 	forward_ImeisService_DeleteImeis_0 = runtime.ForwardResponseMessage
 
-	forward_ImeisService_ListImeis_0 = runtime.ForwardResponseMessage
+	forward_ImeisService_ListImeiss_0 = runtime.ForwardResponseMessage
 )
