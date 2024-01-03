@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package ioels.v1;
+
+import "common/v1/permission.proto";
+import "google/api/annotations.proto";
+
+service IoelsService {
+  rpc CreateIoels(CreateIoelsRequest) returns (CreateIoelsResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/ioels/createioels"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [USER_ROLE_ADMIN]
+    };
+  }
+
+  rpc UpdateIoels(UpdateIoelsRequest) returns (UpdateIoelsResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/ioels/updateioel"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc DeleteIoels(DeleteIoelsRequest) returns (DeleteIoelsResponse) {
+    option (google.api.http) = {delete: "/api/v1/ioels/deleteioels/{ioels_id}"};
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc ListIoelss(ListIoelssRequest) returns (ListIoelssResponse) {
+    option (google.api.http) = {get: "/api/v1/ioels/list"};
+  }
+}
+
+message Ioels {
+  uint32 id = 1;
+  string element_name = 2;
+  string element_lable = 3;
+  string element_color = 4;
+}
+
+message ListIoelssRequest {}
+message ListIoelssResponse {
+  repeated Ioels ioelss = 1;
+}
+message UpdateIoelsRequest {
+  Ioels ioels = 1;
+}
+message UpdateIoelsResponse {}
+
+message CreateIoelsRequest {
+  Ioels ioels = 1;
+}
+
+message CreateIoelsResponse {
+  uint32 ioels_id = 1;
+}
+
+message DeleteIoelsRequest {
+  uint32 ioels_id = 1;
+}
+
+message DeleteIoelsResponse {}
