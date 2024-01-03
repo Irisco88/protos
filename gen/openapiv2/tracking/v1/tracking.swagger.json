@@ -258,9 +258,6 @@
         "elementName": {
           "type": "string"
         },
-        "elementLable": {
-          "type": "string"
-        },
         "elementValue": {
           "type": "number",
           "format": "double"
