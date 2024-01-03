@@ -258,6 +258,9 @@
         "elementName": {
           "type": "string"
         },
+        "elementAlias": {
+          "type": "string"
+        },
         "elementValue": {
           "type": "number",
           "format": "double"
