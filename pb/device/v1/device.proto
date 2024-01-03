@@ -20,7 +20,7 @@ message GPS {
 }
 message IOElement {
   string element_name = 1;
-  string element_alias = 2;
+  string element_lable = 2;
   double element_value = 3;
   double normal_value = 4;
   string color_value = 5;

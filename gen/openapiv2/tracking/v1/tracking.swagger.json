@@ -258,7 +258,7 @@
         "elementName": {
           "type": "string"
         },
-        "elementAlias": {
+        "elementLable": {
           "type": "string"
         },
         "elementValue": {
