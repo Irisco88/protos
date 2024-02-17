@@ -48,6 +48,16 @@ message Imeis {
   uint32 id = 1;
   string imeis_name = 2;
   string device_name = 3;
+  string test_vehicle = 4;
+  string body_number = 5;
+  string project_related = 6;
+  string driver_name = 7;
+  string laboratory = 8;
+  string last_name = 9;
+  string test_location = 10;
+  string start_date = 11;
+  string end_date = 12;
+  string standard_number = 13;
 }
 
 message ListImeissRequest {}

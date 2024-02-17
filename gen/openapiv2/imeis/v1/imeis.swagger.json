@@ -195,6 +195,36 @@
         },
         "deviceName": {
           "type": "string"
+        },
+        "testVehicle": {
+          "type": "string"
+        },
+        "bodyNumber": {
+          "type": "string"
+        },
+        "projectRelated": {
+          "type": "string"
+        },
+        "driverName": {
+          "type": "string"
+        },
+        "laboratory": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "testLocation": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "standardNumber": {
+          "type": "string"
         }
       }
     },
