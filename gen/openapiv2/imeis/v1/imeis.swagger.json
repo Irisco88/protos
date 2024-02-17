@@ -211,7 +211,7 @@
         "laboratory": {
           "type": "string"
         },
-        "lastName": {
+        "testName": {
           "type": "string"
         },
         "testLocation": {

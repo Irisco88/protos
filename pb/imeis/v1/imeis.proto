@@ -53,7 +53,7 @@ message Imeis {
   string project_related = 6;
   string driver_name = 7;
   string laboratory = 8;
-  string last_name = 9;
+  string test_name = 9;
   string test_location = 10;
   string start_date = 11;
   string end_date = 12;
