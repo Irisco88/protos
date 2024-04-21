@@ -50,14 +50,14 @@ message Ioelss {
   string element_name = 2;
   string element_lable = 3;
   string element_color = 4;
-  google.protobuf.Timestamp edit_time = 5;
+  google.protobuf.Timestamp edit_date = 5;
 }
 message Ioelsss {
   uint32 id = 1;
   string element_name = 2;
   string element_lable = 3;
   string element_color = 4;
-  google.protobuf.Timestamp edit_time = 5;
+  google.protobuf.Timestamp edit_date = 5;
 }
 message ListIoelsssRequest {}
 message ListIoelsssResponse {
