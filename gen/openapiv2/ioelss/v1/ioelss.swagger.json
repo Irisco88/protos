@@ -217,8 +217,9 @@
         "elementColor": {
           "type": "string"
         },
-        "editDate": {
-          "type": "string"
+        "editTime": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

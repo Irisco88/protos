@@ -4,6 +4,7 @@ package ioelss.v1;
 
 import "common/v1/permission.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 service IoelssService {
   rpc CreateIoelss(CreateIoelssRequest) returns (CreateIoelssResponse) {
@@ -55,7 +56,7 @@ message Ioelsss {
   string element_name = 2;
   string element_lable = 3;
   string element_color = 4;
-  string edit_date = 5;
+  google.protobuf.Timestamp edit_time = 5;
 }
 message ListIoelsssRequest {}
 message ListIoelsssResponse {
