@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package ioelss.v1;
+
+import "common/v1/permission.proto";
+import "google/api/annotations.proto";
+
+service IoelssService {
+  rpc CreateIoelss(CreateIoelssRequest) returns (CreateIoelssResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/ioelss/createioelss"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [USER_ROLE_ADMIN]
+    };
+  }
+
+  rpc UpdateIoelss(UpdateIoelssRequest) returns (UpdateIoelssResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/ioelss/updateioels"
+      body: "*"
+    };
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc DeleteIoelss(DeleteIoelssRequest) returns (DeleteIoelssResponse) {
+    option (google.api.http) = {delete: "/api/v1/ioelss/deleteioelss/{ioelss_id}"};
+    option (common.v1.permission) = {
+      roles: [
+        USER_ROLE_ADMIN,
+        USER_ROLE_NORMAL
+      ]
+    };
+  }
+
+  rpc ListIoelsss(ListIoelsssRequest) returns (ListIoelsssResponse) {
+    option (google.api.http) = {get: "/api/v1/ioelss/list"};
+  }
+}
+
+message Ioelss {
+  uint32 id = 1;
+  string element_name = 2;
+  string element_lable = 3;
+  string element_color = 4;
+}
+message Ioelsss {
+  uint32 id = 1;
+  string element_name = 2;
+  string element_lable = 3;
+  string element_color = 4;
+  string edit_date = 5;
+}
+message ListIoelsssRequest {}
+message ListIoelsssResponse {
+  repeated Ioelsss ioelssss = 1;
+}
+message UpdateIoelssRequest {
+  Ioelss ioelss = 1;
+}
+message UpdateIoelssResponse {}
+
+message CreateIoelssRequest {
+  Ioelss ioelss = 1;
+}
+
+message CreateIoelssResponse {
+  uint32 ioelss_id = 1;
+}
+
+message DeleteIoelssRequest {
+  uint32 ioelss_id = 1;
+}
+
+message DeleteIoelssResponse {}

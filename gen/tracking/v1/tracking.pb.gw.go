@@ -9,27 +9,24 @@ It translates gRPC into RESTful JSON APIs.
 package trackingv1
 
 import (
-	"context"
 	"io"
 	"net/http"
 
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
+	"github.com/golang/protobuf/proto"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/utilities"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
-	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/proto"
 )
 
-// Suppress "imported and not used" errors
 var _ codes.Code
 var _ io.Reader
 var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
-var _ = metadata.Join
 
 func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (TrackingService_LiveDevicesClient, runtime.ServerMetadata, error) {
 	var metadata runtime.ServerMetadata
@@ -38,7 +35,11 @@ func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtim
 		grpclog.Infof("Failed to start streaming: %v", err)
 		return nil, metadata, err
 	}
-	dec := marshaler.NewDecoder(req.Body)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, berr
+	}
+	dec := marshaler.NewDecoder(newReader())
 	handleSend := func() error {
 		var protoReq LiveDevicesRequest
 		err := dec.Decode(&protoReq)
@@ -54,6 +55,15 @@ func request_TrackingService_LiveDevices_0(ctx context.Context, marshaler runtim
 			return err
 		}
 		return nil
+	}
+	if err := handleSend(); err != nil {
+		if cerr := stream.CloseSend(); cerr != nil {
+			grpclog.Infof("Failed to terminate client stream: %v", cerr)
+		}
+		if err == io.EOF {
+			return stream, metadata, nil
+		}
+		return nil, metadata, err
 	}
 	go func() {
 		for {
@@ -91,23 +101,6 @@ func request_TrackingService_LastPoints_0(ctx context.Context, marshaler runtime
 
 }
 
-func local_request_TrackingService_LastPoints_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq LastPointsRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	msg, err := server.LastPoints(ctx, &protoReq)
-	return msg, metadata, err
-
-}
-
 func request_TrackingService_LastPointsData_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq LastPointsDataRequest
 	var metadata runtime.ServerMetadata
@@ -125,37 +118,12 @@ func request_TrackingService_LastPointsData_0(ctx context.Context, marshaler run
 	}
 
 	protoReq.DataFilter, err = runtime.String(val)
+
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
 	}
 
 	msg, err := client.LastPointsData(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-
-}
-
-func local_request_TrackingService_LastPointsData_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq LastPointsDataRequest
-	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["data_filter"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "data_filter")
-	}
-
-	protoReq.DataFilter, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
-	}
-
-	msg, err := server.LastPointsData(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -177,6 +145,7 @@ func request_TrackingService_AllPointsData_0(ctx context.Context, marshaler runt
 	}
 
 	protoReq.DataFilter, err = runtime.String(val)
+
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
 	}
@@ -186,127 +155,10 @@ func request_TrackingService_AllPointsData_0(ctx context.Context, marshaler runt
 
 }
 
-func local_request_TrackingService_AllPointsData_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AllPointsDataRequest
-	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["data_filter"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "data_filter")
-	}
-
-	protoReq.DataFilter, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "data_filter", err)
-	}
-
-	msg, err := server.AllPointsData(ctx, &protoReq)
-	return msg, metadata, err
-
-}
-
-// RegisterTrackingServiceHandlerServer registers the http handlers for service TrackingService to "mux".
-// UnaryRPC     :call TrackingServiceServer directly.
-// StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingServiceHandlerFromEndpoint instead.
-func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingServiceServer) error {
-
-	mux.Handle("GET", pattern_TrackingService_LiveDevices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
-		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-		return
-	})
-
-	mux.Handle("POST", pattern_TrackingService_LastPoints_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPoints", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_TrackingService_LastPoints_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_TrackingService_LastPoints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("GET", pattern_TrackingService_LastPointsData_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/points/{data_filter}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_TrackingService_LastPointsData_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_TrackingService_LastPointsData_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	mux.Handle("GET", pattern_TrackingService_AllPointsData_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tracking.v1.TrackingService/AllPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/Allpoints/{data_filter}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_TrackingService_AllPointsData_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_TrackingService_AllPointsData_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
-	return nil
-}
-
 // RegisterTrackingServiceHandlerFromEndpoint is same as RegisterTrackingServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterTrackingServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.DialContext(ctx, endpoint, opts...)
+	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
 	}
@@ -345,21 +197,19 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LiveDevices", runtime.WithHTTPPathPattern("/api/v1/tracking/livedevices"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingService_LiveDevices_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		resp, md, err := request_TrackingService_LiveDevices_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingService_LiveDevices_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_LiveDevices_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -367,21 +217,19 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPoints", runtime.WithHTTPPathPattern("/api/v1/tracking/lastpoints"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingService_LastPoints_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		resp, md, err := request_TrackingService_LastPoints_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingService_LastPoints_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_LastPoints_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -389,21 +237,19 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/LastPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/points/{data_filter}"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingService_LastPointsData_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		resp, md, err := request_TrackingService_LastPointsData_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingService_LastPointsData_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_LastPointsData_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -411,21 +257,19 @@ func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/tracking.v1.TrackingService/AllPointsData", runtime.WithHTTPPathPattern("/api/v1/tracking/Allpoints/{data_filter}"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingService_AllPointsData_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		resp, md, err := request_TrackingService_AllPointsData_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingService_AllPointsData_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_AllPointsData_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
